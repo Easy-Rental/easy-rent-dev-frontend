@@ -1,26 +1,13 @@
-﻿import { Upload, Trash2, FileCheck } from "lucide-react";
+﻿import { MdCloudUpload, MdDeleteOutline, MdInsertDriveFile } from "react-icons/md";
 import React from "react";
 
 const FileUploadToggleField = ({
-                                 toggleLabel,
-                                 uploadLabel,
-                                 field,
-                                 documentTypeId,
-                                 formData,
-                                 errors,
-                                 required = false,
-                                 multiple = false,
-                                 accept = "*",
-                                 enabled = false,
-                                 onToggle,
-                                 uploadHandler,
-                                 removeHandler,
-                               }) => {
+  toggleLabel, uploadLabel, field, documentTypeId, formData, errors,
+  required = false, multiple = false, accept = "*",
+  enabled = false, onToggle, uploadHandler, removeHandler,
+}) => {
   const documents = formData?.[field] || [];
-
-  const file = documents.find(
-    (d) => d.document_type_id === documentTypeId
-  );
+  const file = documents.find((d) => d.document_type_id === documentTypeId);
 
   const handleUpload = async (e) => {
     if (!uploadHandler) return;
@@ -34,126 +21,66 @@ const FileUploadToggleField = ({
   };
 
   return (
-    <div className="mb-6">
-
-      <div className="rounded-md border border-gray-200 bg-white transition hover:border-gray-300">
-
-        {/* Toggle Header */}
-        <div className="flex items-center justify-between px-4 py-3">
-
+    <div className="mb-5">
+      <div className={`rounded-xl border transition-all ${enabled ? "border-brand-500 bg-brand-50" : "border-slate-200 bg-slate-50"}`}>
+        <div className="flex items-center justify-between px-4 py-3.5">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-blueSecondary">
-              {toggleLabel}
-              {required && <span className="ml-1 text-red-600">*</span>}
+            <p className="text-sm font-medium text-blueSecondary">
+              {toggleLabel}{required && <span className="ml-1 text-red-500">*</span>}
             </p>
-
-            <p className="truncate text-xs text-gray-400">
-              Enable to allow file upload
-            </p>
+            <p className="text-xs text-gray-400">Enable to allow file upload</p>
           </div>
-
           <label className="relative inline-flex cursor-pointer items-center">
-            <input
-              type="checkbox"
-              checked={enabled}
-              onChange={onToggle}
-              className="peer sr-only"
-            />
-
-            <div className="h-6 w-11 rounded-md bg-gray-300 transition-colors peer-checked:bg-brand-500" />
-
-            <div className="absolute left-0.5 top-0.5 h-5 w-5 rounded-md bg-white shadow transition-transform peer-checked:translate-x-5" />
+            <input type="checkbox" checked={enabled} onChange={onToggle} className="peer sr-only" />
+            <div className="h-6 w-11 rounded-full bg-gray-200 transition-colors peer-checked:bg-brand-500" />
+            <div className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5" />
           </label>
-
         </div>
 
         {enabled && (
-          <div className="space-y-4 border-t border-gray-100 px-4 py-4">
+          <div className="space-y-3 border-t border-slate-200 px-4 py-4">
+            <p className="text-sm font-medium text-blueSecondary">{uploadLabel}</p>
 
-            <div>
-              <p className="text-sm font-semibold text-blueSecondary">
-                {uploadLabel}
-              </p>
-            </div>
-
-            <label className="flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-center transition hover:border-brand-400 hover:bg-brand-50">
-
-              <Upload className="mb-3 h-8 w-8 text-gray-400" />
-
-              <p className="text-sm text-gray-600">
-                Drag & drop or{" "}
-                <span className="font-semibold text-brand-500 underline">
-              browse
-            </span>
-              </p>
-
-              <p className="mt-1 text-xs text-gray-400">
-                {accept === "*" ? "File upload supported" : accept}
-              </p>
-
-              <input
-                type="file"
-                multiple={multiple}
-                accept={accept}
-                className="hidden"
-                onChange={handleUpload}
-              />
-            </label>
+            {!file && (
+              <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-white px-6 py-6 text-center transition-all hover:border-brand-400 hover:bg-brand-50">
+                <MdCloudUpload className="mb-2 h-7 w-7 text-gray-400" />
+                <p className="text-sm text-gray-500">Drag & drop or <span className="font-semibold text-brand-500">browse</span></p>
+                <p className="mt-1 text-xs text-gray-400">{accept === "*" ? "All files supported" : accept}</p>
+                <input type="file" multiple={multiple} accept={accept} className="hidden" onChange={handleUpload} />
+              </label>
+            )}
 
             {file && (
-              <div className="rounded-md border border-gray-200 bg-white p-4 transition">
-
+              <div className="rounded-xl border border-slate-200 bg-white p-3">
                 <div className="flex items-center justify-between gap-3">
-
-                  <div className="flex min-w-0 items-center gap-3">
-
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-green-50 text-green-600">
-                      <FileCheck className="h-5 w-5" />
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-600">
+                      <MdInsertDriveFile className="h-5 w-5" />
                     </div>
-
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-blueSecondary">
-                        {file.name}
-                      </p>
-
-                      <p className="text-xs text-gray-400">
-                        {file.size}
-                      </p>
+                      <p className="truncate text-sm font-medium text-blueSecondary">{file.name}</p>
+                      <p className="text-xs text-gray-400">{file.size}</p>
                     </div>
                   </div>
-
                   <button
                     type="button"
                     onClick={handleRemove}
-                    className="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 px-4 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-100"
+                    className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100"
                   >
-                    <Trash2 className="h-3 w-3" />
-                    Remove
+                    <MdDeleteOutline className="h-3.5 w-3.5" /> Remove
                   </button>
-
                 </div>
-
                 {file.uploading && (
-                  <div className="mt-4 h-1.5 w-full rounded-md bg-gray-100">
-                    <div
-                      className="h-full rounded-md bg-brand-500 transition-all duration-300"
-                      style={{ width: `${file.progress || 0}%` }}
-                    />
+                  <div className="mt-3 h-1 w-full rounded-full bg-gray-100">
+                    <div className="h-full rounded-full bg-brand-500 transition-all" style={{ width: `${file.progress || 0}%` }} />
                   </div>
                 )}
-
               </div>
             )}
 
-            {errors?.[field] && (
-              <p className="text-xs font-medium text-red-600">
-                {errors[field]}
-              </p>
-            )}
-
+            {errors?.[field] && <p className="text-xs text-red-500">{errors[field]}</p>}
           </div>
         )}
-
       </div>
     </div>
   );

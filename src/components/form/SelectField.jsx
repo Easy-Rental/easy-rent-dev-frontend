@@ -1,4 +1,3 @@
-﻿// components/form/SelectField.jsx
 import React from "react";
 
 const getNestedValue = (obj, path) => {
@@ -10,37 +9,36 @@ const getNestedValue = (obj, path) => {
 
 const SelectField = ({ label, field, options, required = true, formData, errors, updateFormData }) => {
   const value = getNestedValue(formData, field) ?? "";
+  const error = getNestedValue(errors, field);
 
   return (
     <div className="mb-4">
-      <label className="block text-p2 font-medium text-blueSecondary">
-        {label} {required && <span className="text-red-600">*</span>}
+      <label className="mb-1.5 block text-sm font-medium text-blueSecondary">
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       <select
         value={value}
         onChange={(e) => updateFormData(field, e.target.value)}
-        className={`mt-2 flex h-12 w-full items-center justify-center rounded-md border p-3 px-3 py-2 text-p2 text-sm outline-none transition-colors focus:outline-none focus:ring-1 focus:ring-brand-500 ${
-          getNestedValue(errors, field) ? "border-red-500" : "border-default"
+        className={`h-12 w-full cursor-pointer rounded-xl border px-3 text-sm text-blueSecondary outline-none transition-all focus:outline-none ${
+          error
+            ? "border-red-400 bg-red-50 focus:border-red-500"
+            : "border-slate-200 bg-slate-50 focus:border-brand-500 focus:bg-white"
         }`}
       >
-        <option value="">Select ...</option>
+        <option value="" className="text-gray-400">Select ...</option>
         {options.map((opt, index) =>
           typeof opt === "object" && opt !== null ? (
             <option key={opt.value ?? index} value={opt.value ?? ""}>
               {opt.label ?? opt.value ?? ""}
             </option>
           ) : (
-            <option key={opt + index} value={opt}>
-              {opt}
-            </option>
+            <option key={opt + index} value={opt}>{opt}</option>
           )
         )}
       </select>
 
-      {getNestedValue(errors, field) && (
-        <p className="mt-1 text-xs text-red-600">{getNestedValue(errors, field)}</p>
-      )}
+      {error && <p className="mt-1.5 text-xs text-red-500">{error}</p>}
     </div>
   );
 };

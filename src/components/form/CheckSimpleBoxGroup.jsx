@@ -1,124 +1,89 @@
-﻿import React, { useState } from "react";
-import { Search } from "lucide-react";
+import React, { useState } from "react";
+import { MdSearch } from "react-icons/md";
 
-const CheckSimpleBoxGroup = ({
-  label,
-  field,
-  options,
-  formData,
-  updateFormData,
-  errors,
-  required = false,
-}) => {
-  const isSelected = (id) => {
-    const selected = formData[field] || [];
-    return selected.includes(id);
-  };
-
+const CheckSimpleBoxGroup = ({ label, field, options, formData, updateFormData, errors, required = false }) => {
   const [search, setSearch] = useState("");
 
-  const filteredOptions = options.filter((option) =>
-    option.name.toLowerCase().includes(search.toLowerCase())
+  const isSelected = (id) => (formData[field] || []).includes(id);
+
+  const filteredOptions = options.filter((o) =>
+    o.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const toggleSelection = (id) => {
     const selected = formData[field] || [];
-    let newSelected;
-    if (selected.includes(id)) {
-      newSelected = selected.filter((i) => i !== id);
-    } else {
-      newSelected = [...selected, id];
-    }
-    updateFormData(field, newSelected);
+    updateFormData(
+      field,
+      selected.includes(id) ? selected.filter((i) => i !== id) : [...selected, id]
+    );
   };
 
   return (
     <div className="mb-5">
-      <div className="w-full space-y-3 rounded-md border border-gray-300 bg-white px-3 py-3 text-sm">
+      <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-semibold text-blueSecondary">
-            {label} {required && <span className="text-red-600">*</span>}
+          <label className="text-sm font-medium text-blueSecondary">
+            {label} {required && <span className="text-red-500">*</span>}
           </label>
-
-          <span className="border-b border-gray-300" />
-
           {filteredOptions.length > 0 && (
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-400">
               {filteredOptions.filter((o) => isSelected(o.id)).length} selected
             </span>
           )}
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+          <div className="relative flex-1">
+            <MdSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Search value..."
+              placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-md border border-gray-200 px-4 py-2 pl-10 text-sm
-                   outline-none focus:border-brand-500"
+              className="h-9 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm outline-none transition-all focus:border-brand-500 placeholder:text-slate-400"
             />
           </div>
-
-          <button
-            type="button"
-            onClick={() => setSearch("")}
-            disabled={!search}
-            className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-40"
-          >
-            Clear search
-          </button>
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch("")}
+              className="text-xs text-gray-400 hover:text-gray-600"
+            >
+              Clear
+            </button>
+          )}
         </div>
 
-        <div className="flex flex-wrap gap-2 py-3">
+        <div className="flex flex-wrap gap-2 pb-1">
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option) => {
               const selected = isSelected(option.id);
-
               return (
                 <label
                   key={option.id}
-                  className={`flex cursor-pointer items-center gap-2 rounded-md border px-3 py-1.5 text-sm
-              transition-colors
-              ${
-                selected
-                  ? "border-brand-500 bg-brand-50 text-brand-600"
-                  : "border-gray-200 text-gray-600 hover:bg-brand-50"
-              }
-            `}
+                  className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all ${
+                    selected
+                      ? "border-brand-500 bg-brand-50 text-brand-600"
+                      : "border-slate-200 bg-white text-gray-500 hover:border-slate-300"
+                  }`}
                 >
                   <input
                     type="checkbox"
                     checked={selected}
                     onChange={() => toggleSelection(option.id)}
-                    className="accent-brand-500"
+                    className="accent-brand-500 h-3.5 w-3.5"
                   />
                   {option.name}
                 </label>
               );
             })
           ) : (
-            <div className="w-full rounded-md border border-dashed border-gray-200 bg-gray-50 px-4 py-6 text-center">
-              <p className="text-sm text-gray-500">No results found</p>
-              {search && (
-                <button
-                  type="button"
-                  onClick={() => setSearch("")}
-                  className="mt-2 text-xs text-brand-500 hover:underline"
-                >
-                  Clear search
-                </button>
-              )}
-            </div>
+            <p className="py-4 text-center text-sm text-gray-400 w-full">No results found</p>
           )}
         </div>
       </div>
 
-      {errors?.[field] && (
-        <p className="mt-1 text-xs text-red-600">{errors[field]}</p>
-      )}
+      {errors?.[field] && <p className="mt-1.5 text-xs text-red-500">{errors[field]}</p>}
     </div>
   );
 };

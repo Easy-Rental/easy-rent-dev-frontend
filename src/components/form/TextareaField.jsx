@@ -1,4 +1,3 @@
-﻿// components/form/TextareaField.jsx
 import React from "react";
 
 const getNestedValue = (obj, path) => {
@@ -8,27 +7,29 @@ const getNestedValue = (obj, path) => {
     .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 };
 
-const TextareaField = ({ label, field, required = true, placeholder = "", formData, errors, updateFormData }) => {
+const TextareaField = ({ label, field, rows = 4, required = true, placeholder = "", formData, errors, updateFormData }) => {
   const value = getNestedValue(formData, field) ?? "";
+  const error = getNestedValue(errors, field);
 
   return (
     <div className="mb-4">
-      <label className="block text-p2 font-medium text-blueSecondary">
-        {label} {required && <span className="text-red-600">*</span>}
+      <label className="mb-1.5 block text-sm font-medium text-blueSecondary">
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       <textarea
+        rows={rows}
         value={value}
         onChange={(e) => updateFormData(field, e.target.value)}
         placeholder={placeholder}
-        className={`mt-2 flex h-12 w-full items-center justify-start rounded-md border p-3 px-3 py-2 text-p2 text-sm outline-none transition-colors focus:outline-none focus:ring-1  focus:ring-brand-500 ${
-          getNestedValue(errors, field) ? "border-red-500" : "border-default"
+        className={`w-full resize-none rounded-xl border px-3 py-3 text-sm text-blueSecondary outline-none transition-all placeholder:text-slate-400 focus:outline-none ${
+          error
+            ? "border-red-400 bg-red-50 focus:border-red-500"
+            : "border-slate-200 bg-slate-50 focus:border-brand-500 focus:bg-white"
         }`}
       />
 
-      {getNestedValue(errors, field) && (
-        <p className="mt-1 text-xs text-red-600">{getNestedValue(errors, field)}</p>
-      )}
+      {error && <p className="mt-1.5 text-xs text-red-500">{error}</p>}
     </div>
   );
 };

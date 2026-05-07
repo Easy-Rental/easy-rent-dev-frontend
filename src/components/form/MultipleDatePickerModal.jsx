@@ -1,23 +1,13 @@
 ﻿import React from "react";
-import { Trash2,CalendarPlus } from "lucide-react";
-import AddDate from "../ui/buttons/IconButton";
+import { MdDeleteOutline, MdAddCircle } from "react-icons/md";
 
 const getNestedValue = (obj, path) => {
   if (!path) return undefined;
-  return path
-    .split(/[\.\[\]]/)
-    .filter(Boolean)
+  return path.split(/[\.\[\]]/).filter(Boolean)
     .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 };
 
-const MultipleDatePickerModal = ({
-  label,
-  field,
-  required = true,
-  formData,
-  errors,
-  updateFormData,
-}) => {
+const MultipleDatePickerModal = ({ label, field, required = true, formData, errors, updateFormData }) => {
   const dates = getNestedValue(formData, field) || [];
 
   React.useEffect(() => {
@@ -33,64 +23,59 @@ const MultipleDatePickerModal = ({
   };
 
   const removeDate = (index) => {
-    if (dates.length <= 1) return; // prevent removing last date
+    if (dates.length <= 1) return;
     const newDates = [...dates];
     newDates.splice(index, 1);
     updateFormData(field, newDates);
   };
 
   return (
-    <div className="mb-4 rounded-md border border-gray-300 bg-white p-6 text-center">
-      <div className="flex items-center justify-between">
-        <label className="text-p2 font-medium text-blueSecondary">
-          {label} {required && <span className="text-red-600">*</span>}
+    <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <label className="text-sm font-medium text-blueSecondary">
+          {label} {required && <span className="text-red-500">*</span>}
         </label>
-
-        <AddDate
-          icon={<CalendarPlus className="h-4 w-4" />}
-          text="Add Date"
-          bgColor="bg-brand-50"
-          textColor="text-brand-600"
-          borderColor="border-brand-500"
-          hoverTextColor="hover:text-brand-700"
-          hoverBorderColor="hover:border-brand-600"
+        <button
+          type="button"
           onClick={addDate}
-        />
+          className="flex items-center gap-1.5 rounded-lg border border-brand-500 bg-brand-50 px-3 py-1.5 text-xs font-medium text-brand-600 transition-all hover:bg-brand-100"
+        >
+          <MdAddCircle className="h-3.5 w-3.5" />
+          Add Date
+        </button>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2">
         {dates.map((date, i) => (
-          <div key={i} className="flex w-full items-center gap-2 rounded-md border p-2">
+          <div key={i} className="flex items-center gap-2">
             <input
               type="date"
               value={date}
               onChange={(e) => updateDate(i, e.target.value)}
-              aria-label={`Intake date ${i + 1}`}
-              className={`h-12 flex-1 rounded-md border px-3 text-sm outline-none focus:ring-1 focus:ring-brand-500 ${
+              aria-label={`Date ${i + 1}`}
+              className={`h-10 rounded-lg border px-3 text-sm text-blueSecondary outline-none transition-all focus:border-brand-500 focus:bg-white ${
                 getNestedValue(errors, `${field}[${i}]`)
-                  ? "border-red-500 bg-red-50"
-                  : "border-gray-200"
+                  ? "border-red-400 bg-red-50"
+                  : "border-slate-200 bg-white"
               }`}
             />
-
             <button
               type="button"
               onClick={() => removeDate(i)}
               disabled={dates.length <= 1}
-              aria-label={`Remove intake date ${i + 1}`}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-red-600 text-red-600 transition hover:border-red-700 hover:text-red-700 disabled:opacity-50"
-              title="Remove this date"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-red-200 text-red-500 transition-all hover:border-red-400 hover:bg-red-50 disabled:opacity-40"
             >
-              <Trash2 className="h-4 w-4" />
+              <MdDeleteOutline className="h-4 w-4" />
             </button>
           </div>
         ))}
       </div>
 
       {getNestedValue(errors, field) && (
-        <p className="mt-1 text-xs text-red-600">{getNestedValue(errors, field)}</p>
+        <p className="mt-2 text-xs text-red-500">{getNestedValue(errors, field)}</p>
       )}
-    </div>  );
+    </div>
+  );
 };
 
 export default MultipleDatePickerModal;

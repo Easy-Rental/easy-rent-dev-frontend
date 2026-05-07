@@ -1,60 +1,40 @@
-﻿"use client";
-
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { ChevronDown } from "lucide-react";
+import { MdExpandMore } from "react-icons/md";
 
 const getNestedValue = (obj, path) => {
   if (!path) return undefined;
-  return path
-    .split(/[\.\[\]]/)
-    .filter(Boolean)
+  return path.split(/[\.\[\]]/).filter(Boolean)
     .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 };
 
-const CreatableSelectField = ({
-                                label,
-                                field,
-                                options = [],
-                                required = true,
-                                formData,
-                                errors,
-                                updateFormData,
-                                placeholder = "Select...",
-                                actions = []
-                              }) => {
+const SearchableSelect = ({
+  label, field, options = [], required = true,
+  formData, errors, updateFormData,
+  placeholder = "Select...", actions = []
+}) => {
   const containerRef = useRef(null);
-
-  const selectedValue = getNestedValue(formData, field) ?? "";
-
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
 
-  const selectedOption = options.find(
-    (opt) => opt.value === selectedValue
+  const selectedValue = getNestedValue(formData, field) ?? "";
+  const selectedOption = options.find((opt) => opt.value === selectedValue);
+  const selectedLabel = selectedOption?.label ?? selectedValue ?? "";
+  const error = getNestedValue(errors, field);
+
+  const filteredOptions = useMemo(() =>
+    options.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase())),
+    [search, options]
   );
 
-  const selectedLabel = selectedOption?.label ?? selectedValue ?? "";
-
-  const filteredOptions = useMemo(() => {
-    return options.filter((opt) =>
-      opt.label.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search, options]);
-
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target)
-      ) {
+    const handler = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
         setIsOpen(false);
         setSearch("");
       }
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const handleSelect = (option) => {
@@ -64,82 +44,60 @@ const CreatableSelectField = ({
   };
 
   return (
-    <div className="mb-4" ref={containerRef}>
-
-      <label className="block text-sm font-medium text-blueSecondary">
-        {label} {required && <span className="text-red-600">*</span>}
+    <div className="relative mb-4" ref={containerRef}>
+      <label className="mb-1.5 block text-sm font-medium text-blueSecondary">
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       <div
         onClick={() => setIsOpen((prev) => !prev)}
-
-        className={`mt-2 flex h-12 w-full items-center justify-between bg-white rounded-md border p-3 px-3 py-2 text-p2 text-sm outline-none transition-colors focus:outline-none focus:ring-1 focus:ring-brand-500 ${
-          getNestedValue(errors, field) ? "border-red-500" : "border-default"
+        className={`flex h-12 w-full cursor-pointer items-center justify-between rounded-xl border px-3 text-sm outline-none transition-all ${
+          isOpen
+            ? "border-brand-500 bg-white"
+            : error
+            ? "border-red-400 bg-red-50"
+            : "border-slate-200 bg-slate-50 hover:border-slate-300"
         }`}
-
       >
-        <span
-          className={`truncate ${
-            selectedLabel ? "text-blueSecondary" : "text-gray-400"
-          }`}
-        >
+        <span className={selectedLabel ? "text-blueSecondary" : "text-gray-400"}>
           {selectedLabel || placeholder}
         </span>
-        <span className="text-xs text-gray-500">
-          <ChevronDown   className="h-5 w-5" />
-        </span>
+        <MdExpandMore className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </div>
 
       {isOpen && (
-
         <div
-          className="animate-in fade-in slide-in-from-top-2 absolute z-[9999] mt-1 rounded-md border bg-white p-3"
-          style={{
-            width: containerRef.current
-              ? containerRef.current.offsetWidth
-              : "100%",
-          }}
+          className="absolute z-[9999] mt-1 rounded-xl border border-gray-100 bg-white p-2 shadow-lg shadow-gray-200/40"
+          style={{ width: containerRef.current?.offsetWidth ?? "100%" }}
         >
-
           <input
             type="text"
             placeholder="Search..."
             autoFocus
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className={`mt-2 flex h-10 w-full items-start justify-start rounded-md border p-3 px-3 py-2 text-p2 text-sm outline-none transition-colors focus:outline-none focus:ring-1  focus:ring-brand-500 ${
-              getNestedValue(errors, field) ? "border-red-500" : "border-default"
-            }`}
+            className="mb-2 h-9 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm outline-none transition-all focus:border-brand-500 focus:bg-white placeholder:text-slate-400"
           />
 
-          <ul className="max-h-60 overflow-y-auto text-sm">
+          <ul className="max-h-52 overflow-y-auto">
             {filteredOptions.map((opt) => (
               <li
                 key={opt.value}
                 onClick={() => handleSelect(opt)}
-                className="mt-2 flex h-10 w-full cursor-pointer items-center justify-start rounded-md border p-3 px-3 py-2 text-p2 text-sm outline-none transition-colors focus:outline-none focus:ring-1 focus:ring-brand-500"
+                className="flex h-9 cursor-pointer items-center rounded-lg px-3 text-sm text-blueSecondary hover:bg-brand-50"
               >
-                <span className="truncate">{opt.label}</span>
+                {opt.label}
               </li>
             ))}
 
-            {actions.length > 0 && !filteredOptions.length && (
-              <div className="border-t mt-2 pt-2">
-
-                <li className="px-3 py-2 text-gray-400">
-                  No results found
-                </li>
-
-                {actions.map((action, index) => (
+            {!filteredOptions.length && actions.length > 0 && (
+              <div className="border-t border-gray-100 pt-2 mt-1">
+                <p className="px-3 py-1.5 text-xs text-gray-400">No results found</p>
+                {actions.map((action, i) => (
                   <li
-                    key={index}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      action.onClick?.();
-                      setIsOpen(false);
-                      setSearch("");
-                    }}
-                    className="mt-2 flex h-10 w-full cursor-pointer items-center gap-2 rounded-md border p-3 text-sm transition hover:bg-brand-50"
+                    key={i}
+                    onClick={(e) => { e.stopPropagation(); action.onClick?.(); setIsOpen(false); setSearch(""); }}
+                    className="flex h-9 cursor-pointer items-center gap-2 rounded-lg px-3 text-sm text-blueSecondary hover:bg-brand-50"
                   >
                     {action.icon}
                     <span>{action.label}</span>
@@ -148,17 +106,16 @@ const CreatableSelectField = ({
               </div>
             )}
 
+            {!filteredOptions.length && !actions.length && (
+              <p className="px-3 py-3 text-center text-sm text-gray-400">No results found</p>
+            )}
           </ul>
         </div>
       )}
 
-      {getNestedValue(errors, field) && (
-        <p className="mt-1 text-xs text-red-600">
-          {getNestedValue(errors, field)}
-        </p>
-      )}
+      {error && <p className="mt-1.5 text-xs text-red-500">{error}</p>}
     </div>
   );
 };
 
-export default CreatableSelectField;
+export default SearchableSelect;

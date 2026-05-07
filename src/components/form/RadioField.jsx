@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 
 const getNestedValue = (obj, path) => {
   if (!path) return undefined;
@@ -7,32 +7,27 @@ const getNestedValue = (obj, path) => {
     .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 };
 
-const RadioField = ({
-                      label,
-                      field,
-                      options,
-                      formData,
-                      errors,
-                      updateFormData,
-                      required = true,
-                    }) => {
+const RadioField = ({ label, field, options, formData, errors, updateFormData, required = true }) => {
   const value = getNestedValue(formData, field);
+  const error = getNestedValue(errors, field);
 
   return (
     <div className="mb-4">
-      <label className="block text-p2 font-medium text-blueSecondary">
-        {label} {required && <span className="text-red-600">*</span>}
+      <label className="mb-1.5 block text-sm font-medium text-blueSecondary">
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
-      <div className="mt-2 flex gap-2">
+      <div className="flex gap-2">
         {options.map((opt) => (
           <label
             key={opt.label}
-            className={`flex-1 cursor-pointer rounded-md border p-3 text-center text-p2 text-sm transition-colors focus-within:ring-1 focus-within:ring-brand-500 ${
-              getNestedValue(errors, field)
-                ? "border-red-500"
-                : "border-default"
-            } ${value === opt.value ? "bg-brand-100 border-brand-500" : "bg-white"}`}
+            className={`flex flex-1 cursor-pointer items-center justify-center rounded-xl border px-3 py-3 text-sm font-medium transition-all ${
+              error ? "border-red-400" : ""
+            } ${
+              value === opt.value
+                ? "border-brand-500 bg-brand-50 text-brand-600"
+                : "border-slate-200 bg-slate-50 text-gray-500 hover:border-slate-300 hover:bg-white"
+            }`}
           >
             <input
               type="radio"
@@ -47,11 +42,7 @@ const RadioField = ({
         ))}
       </div>
 
-      {getNestedValue(errors, field) && (
-        <p className="mt-1 text-xs text-red-600">
-          {getNestedValue(errors, field)}
-        </p>
-      )}
+      {error && <p className="mt-1.5 text-xs text-red-500">{error}</p>}
     </div>
   );
 };

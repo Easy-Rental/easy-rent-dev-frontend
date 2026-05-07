@@ -15,8 +15,8 @@ const InputField = ({ label, field, type = "text", required = true, placeholder 
 
   return (
     <div className="mb-4">
-      <label className="block text-p2 font-medium text-blueSecondary">
-        {label} {required && <span className="text-red-600">*</span>}
+      <label className="mb-1.5 block text-sm font-medium text-blueSecondary">
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       <input
@@ -25,13 +25,15 @@ const InputField = ({ label, field, type = "text", required = true, placeholder 
         onChange={(e) => updateFormData(field, type === "email" ? e.target.value.toLowerCase() : e.target.value)}
         placeholder={placeholder}
         {...dateProps}
-        className={`mt-2 flex h-12 w-full items-center justify-start rounded-md border p-3 px-3 py-2 text-p2 text-sm outline-none transition-colors focus:outline-none focus:ring-1  focus:ring-brand-500 ${
-          getNestedValue(errors, field) ? "border-red-500" : "border-default"
+        className={`h-12 w-full rounded-xl border px-3 text-sm text-blueSecondary outline-none transition-all placeholder:text-slate-400 focus:outline-none ${
+          getNestedValue(errors, field)
+            ? "border-red-400 bg-red-50 focus:border-red-500"
+            : "border-slate-200 bg-slate-50 focus:border-brand-500 focus:bg-white"
         }`}
       />
 
       {getNestedValue(errors, field) && (
-        <p className="mt-1 text-xs text-red-600">{getNestedValue(errors, field)}</p>
+        <p className="mt-1.5 text-xs text-red-500">{getNestedValue(errors, field)}</p>
       )}
     </div>
   );

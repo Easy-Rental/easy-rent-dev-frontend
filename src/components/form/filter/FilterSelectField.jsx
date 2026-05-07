@@ -1,44 +1,27 @@
 ﻿import React from "react";
 
-export default function FilterSelectField({
-                                            value,
-                                            onChange,
-                                            options = [],
-                                            icon: Icon = null,
-                                            defaultOption = "Select ...",
-                                          }) {
+export default function FilterSelectField({ value, onChange, options = [], icon: Icon = null, defaultOption = "Select ..." }) {
   return (
     <div className="relative flex-1 sm:flex-none">
       {Icon && (
-        <Icon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+        <Icon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
       )}
-
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="bg-white w-full cursor-pointer rounded-md border border-gray-200 py-2.5 pl-10 pr-8 text-sm text-gray-700 outline-none focus:ring-1 focus:ring-brand-500"
+        className={`h-10 w-full cursor-pointer rounded-xl border border-slate-200 bg-slate-50 text-sm text-blueSecondary outline-none transition-all focus:border-brand-500 focus:bg-white ${Icon ? "pl-9 pr-3" : "px-3"}`}
       >
-        <option value="all" className="bg-white text-gray-700">
-          {defaultOption}
-        </option>
-
+        <option value="all">{defaultOption}</option>
         {options.map((opt) =>
           typeof opt === "object" && opt !== null ? (
-            <option
-              key={opt.value ?? opt.id}
-              value={opt.value ?? opt.name}
-              className="bg-white text-gray-700"
-            >
+            <option key={opt.value ?? opt.id} value={opt.value ?? opt.name}>
               {opt.label ?? opt.name ?? opt.value}
             </option>
           ) : (
-            <option key={opt} value={opt} className="bg-white text-gray-700">
-              {opt}
-            </option>
+            <option key={opt} value={opt}>{opt}</option>
           )
         )}
       </select>
-
     </div>
   );
 }
