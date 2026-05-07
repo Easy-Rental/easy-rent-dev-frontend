@@ -1,17 +1,22 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { InputField, PasswordField } from "components/form";
+import { signIn } from "lib/authClient";
+import { ADMIN_PANEL_ROLES } from "context/AuthContext";
 
 export default function SignIn() {
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const location  = useLocation();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors]     = useState({});
+  const [apiError, setApiError] = useState("");
   const [remember, setRemember] = useState(false);
   const [loading, setLoading]   = useState(false);
 
   const updateFormData = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     setErrors((prev)   => ({ ...prev, [field]: "" }));
+    setApiError("");
   };
 
   const handleSubmit = async (e) => {
@@ -24,9 +29,31 @@ export default function SignIn() {
     if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
 
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
+    setApiError("");
+
+    const { data, error } = await signIn.email({
+      email:    formData.email,
+      password: formData.password,
+      rememberMe: remember,
+    });
+
     setLoading(false);
-    navigate("/admin/default");
+
+    if (error) {
+      setApiError(error.message ?? "Invalid email or password.");
+      return;
+    }
+
+    const role = data?.user?.role ?? null;
+    const from = location.state?.from?.pathname;
+
+    if (from) {
+      navigate(from, { replace: true });
+    } else if (ADMIN_PANEL_ROLES.includes(role)) {
+      navigate("/admin/default", { replace: true });
+    } else {
+      navigate("/", { replace: true });
+    }
   };
 
   return (
@@ -75,6 +102,12 @@ export default function SignIn() {
             Forgot password?
           </a>
         </div>
+
+        {apiError && (
+          <p className="mb-4 rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-600">
+            {apiError}
+          </p>
+        )}
 
         <button
           type="submit"

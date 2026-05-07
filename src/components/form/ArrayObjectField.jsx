@@ -1,150 +1,87 @@
-﻿// components/form/ArrayObjectField.jsx
-import React, { useEffect } from "react";
-import AddDate from "../ui/buttons/IconButton";
-import { CalendarPlus, Trash2 } from "lucide-react";
-import IconButton from "../ui/buttons/IconButton";
+﻿import React, { useEffect } from "react";
+import { MdDeleteOutline, MdAddCircle } from "react-icons/md";
 
 const getNestedValue = (obj, path) => {
   if (!path) return undefined;
-
-  return path
-    .split(/[\.\[\]]/)
-    .filter(Boolean)
+  return path.split(/[\.\[\]]/).filter(Boolean)
     .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 };
 
-const setArrayFieldValue = (array, index, key, value) => {
-  const newArray = [...(array || [])];
-
-  newArray[index] = {
-    ...newArray[index],
-    [key]: value,
-  };
-
-  return newArray;
-};
-
-const ArrayObjectField = ({
-  label,
-  subLabel,
-  field,
-  formData,
-  errors,
-  updateFormData,
-  fields = [],
-  getDefaultRow = undefined,
-}) => {
+const ArrayObjectField = ({ label, subLabel, field, formData, errors, updateFormData, fields = [], getDefaultRow }) => {
   const arrayValue = getNestedValue(formData, field) || [];
 
   const buildDefaultRow = (currentArray) => {
     if (getDefaultRow) return getDefaultRow(currentArray);
-    return fields.reduce((acc, f) => {
-      acc[f.key] = "";
-      return acc;
-    }, {});
+    return fields.reduce((acc, f) => { acc[f.key] = ""; return acc; }, {});
   };
 
   useEffect(() => {
-    if (!arrayValue || arrayValue.length === 0) {
-      updateFormData(field, [buildDefaultRow([])]);
-    }
+    if (!arrayValue || arrayValue.length === 0) updateFormData(field, [buildDefaultRow([])]);
   }, []);
 
   const handleChange = (index, key, value) => {
-    updateFormData(field, setArrayFieldValue(arrayValue, index, key, value));
-  };
-
-  const addRow = () => {
-    updateFormData(field, [...arrayValue, buildDefaultRow(arrayValue)]);
-  };
-
-  const removeRow = (index) => {
-    if (arrayValue.length <= 1) return;
-
-    const newArray = arrayValue.filter((_, i) => i !== index);
+    const newArray = [...arrayValue];
+    newArray[index] = { ...newArray[index], [key]: value };
     updateFormData(field, newArray);
   };
 
+  const addRow = () => updateFormData(field, [...arrayValue, buildDefaultRow(arrayValue)]);
+
+  const removeRow = (index) => {
+    if (arrayValue.length <= 1) return;
+    updateFormData(field, arrayValue.filter((_, i) => i !== index));
+  };
+
   return (
-    <div className="space-y-4 rounded-md border border-default p-4">
-
+    <div className="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-semibold text-blueSecondary">
-          {label}
-        </label>
-
-        <AddDate
-          icon={<CalendarPlus className="h-4 w-4" />}
-          text="Add Date"
-          bgColor="bg-brand-50"
-          textColor="text-brand-600"
-          borderColor="border-brand-500"
-          hoverTextColor="hover:text-brand-700"
-          hoverBorderColor="hover:border-brand-600"
+        <label className="text-sm font-medium text-blueSecondary">{label}</label>
+        <button
+          type="button"
           onClick={addRow}
-        />
+          className="flex items-center gap-1.5 rounded-lg border border-brand-500 bg-brand-50 px-3 py-1.5 text-xs font-medium text-brand-600 transition-all hover:bg-brand-100"
+        >
+          <MdAddCircle className="h-3.5 w-3.5" />
+          Add Row
+        </button>
       </div>
 
       {arrayValue.map((item, index) => (
-        <div
-          key={index}
-          className="space-y-4 rounded-md border border-gray-200 bg-white p-4"
-        >
-
+        <div key={index} className="space-y-3 rounded-xl border border-slate-200 bg-white p-4">
           <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-
-        <span className="text-sm font-medium text-gray-700">
-          {subLabel} {index + 1}
-        </span>
-
-            <IconButton
-              icon={<Trash2 className="h-4 w-4" />}
+            <span className="text-sm font-medium text-gray-500">{subLabel} {index + 1}</span>
+            <button
+              type="button"
               onClick={() => removeRow(index)}
               disabled={arrayValue.length <= 1}
-              bgColor="bg-red-50"
-              textColor="text-red-600"
-              borderColor="border-red-200"
-              hoverTextColor="hover:text-red-700"
-              hoverBorderColor="hover:border-red-300"
-            />
-
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-red-200 text-red-500 transition-all hover:border-red-400 hover:bg-red-50 disabled:opacity-40"
+            >
+              <MdDeleteOutline className="h-4 w-4" />
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {fields.map((f) => {
-              const errorPath = `${field}[${index}].${f.key}`;
-              const errorMessage = getNestedValue(errors, errorPath);
-
+              const errorMsg = getNestedValue(errors, `${field}[${index}].${f.key}`);
               return (
-                <div key={f.key} className="space-y-1">
-
-                  <label className="block text-xs font-medium text-gray-700">
-                    {f.label}
-                  </label>
-
+                <div key={f.key}>
+                  <label className="mb-1 block text-xs font-medium text-gray-500">{f.label}</label>
                   <input
                     type={f.type || "text"}
                     value={item?.[f.key] ?? ""}
                     placeholder={f.placeholder || ""}
-                    onChange={(e) =>
-                      handleChange(index, f.key, e.target.value)
-                    }
-                    className="h-11 w-full rounded-md border border-default px-3 text-sm outline-none focus:ring-1 focus:ring-brand-500"
+                    onChange={(e) => handleChange(index, f.key, e.target.value)}
+                    className={`h-10 w-full rounded-lg border px-3 text-sm text-blueSecondary outline-none transition-all focus:border-brand-500 focus:bg-white placeholder:text-slate-400 ${
+                      errorMsg ? "border-red-400 bg-red-50" : "border-slate-200 bg-slate-50"
+                    }`}
                   />
-
-                  {errorMessage && (
-                    <p className="text-xs text-red-600">{errorMessage}</p>
-                  )}
-
+                  {errorMsg && <p className="mt-1 text-xs text-red-500">{errorMsg}</p>}
                 </div>
               );
             })}
-
           </div>
         </div>
       ))}
-
     </div>
   );
 };

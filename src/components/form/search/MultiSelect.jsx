@@ -1,103 +1,72 @@
-﻿"use client";
-
-import React, { useState, useRef, useEffect, useMemo } from "react";
-import { ChevronDown } from "lucide-react";
+﻿import React, { useState, useRef, useEffect, useMemo } from "react";
+import { MdExpandMore } from "react-icons/md";
 
 const getNestedValue = (obj, path) => {
   if (!path) return undefined;
-  return path
-    .split(/[\.\[\]]/)
-    .filter(Boolean)
+  return path.split(/[\.\[\]]/).filter(Boolean)
     .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 };
 
-const CreatableSelectField = ({
-  label,
-  field,
-  options = [],
-  required = true,
-  formData,
-  errors,
-  updateFormData,
-  placeholder = "Select...",
-  disabledOptions = [],
+const MultiSelect = ({
+  label, field, options = [], required = true,
+  formData, errors, updateFormData,
+  placeholder = "Select...", disabledOptions = []
 }) => {
   const containerRef = useRef(null);
-
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
 
   const selectedValues = getNestedValue(formData, field) ?? [];
-  const selectedLabels = options
-    .filter((opt) => selectedValues.includes(opt.value))
-    .map((opt) => opt.label);
+  const selectedLabels = options.filter((opt) => selectedValues.includes(opt.value)).map((opt) => opt.label);
+  const error = getNestedValue(errors, field);
 
-  const filteredOptions = useMemo(() => {
-    return options.filter(
-      (opt) =>
-        opt.label && opt.label.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search, options]);
+  const filteredOptions = useMemo(() =>
+    options.filter((opt) => opt.label?.toLowerCase().includes(search.toLowerCase())),
+    [search, options]
+  );
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    const handler = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setIsOpen(false);
-        setSearch("");
+        setIsOpen(false); setSearch("");
       }
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const handleSelect = (option) => {
     if (disabledOptions.includes(option.value)) return;
-
-    let newValues = [...selectedValues];
-
-    if (newValues.includes(option.value)) {
-      newValues = newValues.filter((v) => v !== option.value);
-    } else {
-      newValues.push(option.value);
-    }
-
+    const newValues = selectedValues.includes(option.value)
+      ? selectedValues.filter((v) => v !== option.value)
+      : [...selectedValues, option.value];
     updateFormData(field, newValues);
   };
 
   return (
-    <div className="z-[9999] mb-4" ref={containerRef}>
-      <label className="block text-sm font-medium text-blueSecondary">
-        {label} {required && <span className="text-red-600">*</span>}
+    <div className="relative mb-4" ref={containerRef}>
+      <label className="mb-1.5 block text-sm font-medium text-blueSecondary">
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       <div
-        onClick={() => setIsOpen((prev) => !prev)}
-        className={`mt-2 flex h-12 w-full items-center justify-between rounded-md border bg-white p-3 px-3 py-2 text-p2 text-sm outline-none transition-colors focus:outline-none focus:ring-1 focus:ring-brand-500 ${
-          getNestedValue(errors, field) ? "border-red-500" : "border-default"
+        onClick={() => setIsOpen((p) => !p)}
+        className={`flex min-h-12 w-full cursor-pointer items-center justify-between rounded-xl border px-3 py-2 text-sm outline-none transition-all ${
+          isOpen ? "border-brand-500 bg-white"
+          : error ? "border-red-400 bg-red-50"
+          : "border-slate-200 bg-slate-50 hover:border-slate-300"
         }`}
       >
-        <span
-          className={`${
-            selectedLabels.length ? "text-blueSecondary" : "text-gray-400"
-          }`}
-        >
+        <span className={selectedLabels.length ? "text-blueSecondary" : "text-gray-400"}>
           {selectedLabels.length ? selectedLabels.join(", ") : placeholder}
         </span>
-
-        <span className="text-xs text-gray-500">
-          <ChevronDown className="h-5 w-5" />
-        </span>
+        <MdExpandMore className={`h-5 w-5 shrink-0 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </div>
 
       {isOpen && (
         <div
-          className="animate-in fade-in slide-in-from-top-2 absolute z-[9999] mt-1 rounded-md border bg-white p-3"
-          style={{
-            width: containerRef.current
-              ? containerRef.current.offsetWidth
-              : "100%",
-          }}
+          className="absolute z-[9999] mt-1 rounded-xl border border-gray-100 bg-white p-2 shadow-lg shadow-gray-200/40"
+          style={{ width: containerRef.current?.offsetWidth ?? "100%" }}
         >
           <input
             type="text"
@@ -105,54 +74,35 @@ const CreatableSelectField = ({
             autoFocus
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className={`mt-2 flex h-10 w-full items-start justify-start rounded-md border p-3 px-3 py-2 text-p2 text-sm outline-none transition-colors focus:outline-none focus:ring-1  focus:ring-brand-500 ${
-              getNestedValue(errors, field)
-                ? "border-red-500"
-                : "border-default"
-            }`}
+            className="mb-2 h-9 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm outline-none focus:border-brand-500 focus:bg-white placeholder:text-slate-400"
           />
-
-          <ul className="max-h-40 overflow-y-auto text-sm">
+          <ul className="max-h-48 overflow-y-auto">
             {filteredOptions.map((opt) => {
-              const isDisabled = disabledOptions.includes(opt.value);
-
+              const disabled = disabledOptions.includes(opt.value);
+              const checked = selectedValues.includes(opt.value);
               return (
                 <li
                   key={opt.value}
-                  onClick={() => !isDisabled && handleSelect(opt)}
-                  className={`mt-2 flex h-10 w-full items-center gap-2 rounded-md border px-3 py-2 text-sm
-  ${
-    isDisabled
-      ? "cursor-not-allowed bg-gray-100 text-gray-400"
-      : "cursor-pointer hover:bg-brand-50"
-  }`}
+                  onClick={() => !disabled && handleSelect(opt)}
+                  className={`flex h-9 items-center gap-2.5 rounded-lg px-3 text-sm transition-colors ${
+                    disabled ? "cursor-not-allowed text-gray-300" : "cursor-pointer text-blueSecondary hover:bg-brand-50"
+                  }`}
                 >
-                  <input
-                    type="checkbox"
-                    checked={selectedValues.includes(opt.value)}
-                    readOnly
-                  />
+                  <input type="checkbox" checked={checked} readOnly className="accent-brand-500 h-3.5 w-3.5 shrink-0" />
                   {opt.label}
                 </li>
               );
             })}
-
             {!filteredOptions.length && (
-              <div className="mt-2 border-t pt-2">
-                <li className="px-3 py-2 text-gray-400">No results found</li>
-              </div>
+              <p className="px-3 py-3 text-center text-sm text-gray-400">No results found</p>
             )}
           </ul>
         </div>
       )}
 
-      {getNestedValue(errors, field) && (
-        <p className="mt-1 text-xs text-red-600">
-          {getNestedValue(errors, field)}
-        </p>
-      )}
+      {error && <p className="mt-1.5 text-xs text-red-500">{error}</p>}
     </div>
   );
 };
 
-export default CreatableSelectField;
+export default MultiSelect;

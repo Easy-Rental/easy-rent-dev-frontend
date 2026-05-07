@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/User/.claude/projects/c--Users-User-Desktop-easy-rent-dev-frontend/memory/**)",
+      "Bash(curl -s \"http://easyrent-apitest.46.62.215.0.sslip.io/v1\")"
+    ]
+  }
+}

@@ -324,9 +324,9 @@ module.exports = {
         100: "#dce8ff",
         200: "#b9d1ff",
         300: "#87b0ff",
-        400: "#5a8dff",
-        500: "#2F6BFF",
-        600: "#2457d9",
+        400: "#4D82FF",  /* link hover — official brand spec */
+        500: "#2F6BFF",  /* Drive Blue — primary */
+        600: "#2457d9",  /* button hover */
         700: "#1a42b3",
         800: "#112e8c",
         900: "#091d66",

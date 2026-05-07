@@ -53,7 +53,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-gray-100 px-6 pb-5 pt-2 space-y-1">
+        <div className="md:hidden bg-white border-t border-gray-100 px-6 pb-5 pt-2 space-y-1">
           {navLinks.map((l) => (
             <a key={l.label} href={`#${l.href}`} onClick={() => setMenuOpen(false)}
               className="block py-2 text-sm font-medium text-gray-700 hover:text-brand-500">{l.label}</a>
