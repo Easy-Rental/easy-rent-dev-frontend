@@ -1,7 +1,7 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSession } from "lib/authClient";
+import { tokenStorage, userStorage } from "lib/authClient";
 
-// Role constants — single source of truth
 export const ROLES = {
   ADMIN:           "admin",
   ACCOUNT_MANAGER: "account_manager",
@@ -9,20 +9,39 @@ export const ROLES = {
   USER:            "user",
 };
 
-// Which roles can access the admin panel
 export const ADMIN_PANEL_ROLES = [ROLES.ADMIN, ROLES.ACCOUNT_MANAGER];
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const { data: session, isPending, error } = useSession();
+  const { data: serverSession, isPending, error } = useSession();
 
-  const user    = session?.user ?? null;
-  const role    = user?.role   ?? null;
+  // Seed from localStorage immediately — avoids flash/redirect on first render
+  const [localUser, setLocalUser] = useState(() => userStorage.get());
+
+  useEffect(() => {
+    if (serverSession?.user) {
+      // Server confirmed the session — keep localStorage in sync
+      userStorage.save(serverSession.user);
+      setLocalUser(serverSession.user);
+    } else if (!isPending && serverSession === null) {
+      // Server explicitly says no session — clear local storage
+      tokenStorage.clear();
+      userStorage.clear();
+      setLocalUser(null);
+    }
+  }, [serverSession, isPending]);
+
+  const user    = serverSession?.user ?? localUser;
+  const role    = user?.role          ?? null;
   const isAdmin = ADMIN_PANEL_ROLES.includes(role);
 
+  // Only block on isPending if there's no local user to fall back to
+  const session = serverSession ?? (localUser ? { user: localUser } : null);
+  const pending = isPending && localUser === null;
+
   return (
-    <AuthContext.Provider value={{ session, user, role, isAdmin, isPending, error }}>
+    <AuthContext.Provider value={{ session, user, role, isAdmin, isPending: pending, error }}>
       {children}
     </AuthContext.Provider>
   );

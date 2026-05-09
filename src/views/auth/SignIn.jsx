@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { InputField, PasswordField } from "components/form";
-import { signIn } from "lib/authClient";
+import { signIn, tokenStorage, userStorage } from "lib/authClient";
 import { ADMIN_PANEL_ROLES } from "context/AuthContext";
 
 export default function SignIn() {
@@ -43,6 +43,9 @@ export default function SignIn() {
       setApiError(error.message ?? "Invalid email or password.");
       return;
     }
+
+    if (data?.token) tokenStorage.save(data.token);
+    if (data?.user)  userStorage.save(data.user);
 
     const role = data?.user?.role ?? null;
     const from = location.state?.from?.pathname;
