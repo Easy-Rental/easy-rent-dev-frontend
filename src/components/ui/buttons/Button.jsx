@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 
 const variants = {
   primary:   "bg-brand-500 text-white border-brand-500 hover:bg-brand-600 hover:border-brand-600 active:bg-brand-700",
