@@ -15,6 +15,7 @@ import {
   MdLogout,
   MdPeople,
   MdBarChart,
+  MdHandshake,
 } from "react-icons/md";
 import { signOut, tokenStorage, userStorage } from "lib/authClient";
 import { useAuth, ROLES } from "context/AuthContext";
@@ -56,8 +57,18 @@ const NAV = [
     icon: <MdPeople className="h-4 w-4" />,
     roles: [ROLES.ADMIN],
     children: [
-      { name: "All Users", path: "/admin/users",          roles: [ROLES.ADMIN] },
-      { name: "Partners",  path: "/admin/users/partners", roles: [ROLES.ADMIN] },
+      { name: "All Users", path: "/admin/users",        roles: [ROLES.ADMIN] },
+      { name: "Add User",  path: "/admin/users/create", roles: [ROLES.ADMIN] },
+    ],
+  },
+  {
+    name: "Partners",
+    path: "/admin/partners",
+    icon: <MdHandshake className="h-4 w-4" />,
+    roles: [ROLES.ADMIN],
+    children: [
+      { name: "All Partners", path: "/admin/partners",        roles: [ROLES.ADMIN] },
+      { name: "Add Partner",  path: "/admin/partners/create", roles: [ROLES.ADMIN] },
     ],
   },
   {
