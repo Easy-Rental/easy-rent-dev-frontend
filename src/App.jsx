@@ -5,6 +5,7 @@ import AdminLayout from "layouts/admin";
 import AuthLayout from "layouts/auth";
 import LandingPage from "views/landing";
 import { AuthProvider, ADMIN_PANEL_ROLES } from "context/AuthContext";
+import { ToastProvider } from "context/ToastContext";
 import ProtectedRoute from "components/auth/ProtectedRoute";
 
 class ErrorBoundary extends React.Component {
@@ -35,6 +36,7 @@ class ErrorBoundary extends React.Component {
 const App = () => {
   return (
     <ErrorBoundary>
+      <ToastProvider>
       <AuthProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -49,6 +51,7 @@ const App = () => {
           />
         </Routes>
       </AuthProvider>
+      </ToastProvider>
     </ErrorBoundary>
   );
 };

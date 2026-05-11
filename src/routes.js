@@ -8,6 +8,13 @@ import Profile        from "views/admin/profile";
 import Fleet          from "views/admin/fleet";
 import AddVehicle     from "views/admin/fleet/AddVehicle";
 
+// Admin — users
+import UsersPage         from "views/admin/users/UsersPage";
+import UserCreatePage    from "views/admin/users/UserCreatePage";
+import UserEditPage      from "views/admin/users/UserEditPage";
+import UserProfilePage   from "views/admin/users/UserProfilePage";
+import TrainerCreatePage from "views/admin/users/UserTrainerCreatePage";
+
 // Admin — stubs
 import Bookings       from "views/admin/bookings";
 import Notifications  from "views/admin/notifications";
@@ -51,6 +58,11 @@ const routes = [
     icon: <MdOutlineDirectionsCar className="h-6 w-6" />,
     component: <AddVehicle />,
   },
+  { name: "Users",           layout: "/admin", path: "users",                 component: <UsersPage />        },
+  { name: "Create User",     layout: "/admin", path: "users/create",          component: <UserCreatePage />   },
+  { name: "Create Trainer",  layout: "/admin", path: "users/trainer/create",  component: <TrainerCreatePage />},
+  { name: "User Profile",    layout: "/admin", path: "users/:uid",            component: <UserProfilePage />  },
+  { name: "Edit User",       layout: "/admin", path: "users/:uid/edit",       component: <UserEditPage />     },
   {
     name: "Bookings",
     layout: "/admin",
