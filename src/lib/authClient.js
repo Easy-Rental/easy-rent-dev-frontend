@@ -16,8 +16,10 @@ export const userStorage = {
   clear: ()      => localStorage.removeItem(USER_KEY),
 };
 
+const API_BASE = (process.env.REACT_APP_API_URL ?? "").trim();
+
 export const authClient = createAuthClient({
-  baseURL: `${process.env.REACT_APP_API_URL?.trim()}/auth`,
+  baseURL: `${API_BASE}/auth`,
   plugins: [adminClient()],
   fetchOptions: {
     credentials: "include",
