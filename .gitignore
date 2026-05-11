@@ -13,6 +13,7 @@
 
 # misc
 .DS_Store
+src/FRONTEND_PLAYBOOK.md
 
 # env files — never commit secrets
 .env

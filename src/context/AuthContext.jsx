@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSession } from "lib/authClient";
-import { tokenStorage, userStorage } from "lib/authClient";
+import { userStorage } from "lib/authClient";
 
 export const ROLES = {
   ADMIN:           "admin",
@@ -21,16 +21,13 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (serverSession?.user) {
-      // Server confirmed the session — keep localStorage in sync
       userStorage.save(serverSession.user);
       setLocalUser(serverSession.user);
-    } else if (!isPending && serverSession === null) {
-      // Server explicitly says no session — clear local storage
-      tokenStorage.clear();
-      userStorage.clear();
-      setLocalUser(null);
     }
-  }, [serverSession, isPending]);
+    // Do NOT clear on null — GET /get-session returns null because the backend
+    // doesn't support Bearer token auth. Clearing here causes a redirect loop.
+    // Session is cleared explicitly on sign-out.
+  }, [serverSession]);
 
   const user    = serverSession?.user ?? localUser;
   const role    = user?.role          ?? null;
