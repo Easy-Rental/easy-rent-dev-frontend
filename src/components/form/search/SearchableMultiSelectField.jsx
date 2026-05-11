@@ -55,15 +55,15 @@ const SearchableMultiSelectField = ({
           : "border-slate-200 bg-slate-50 hover:border-slate-300"
         }`}
       >
-        <span className={selectedOptions.length ? "text-blueSecondary" : "text-gray-400"}>
+        <span className={selectedOptions.length ? "text-blueSecondary" : "text-slate-400"}>
           {selectedOptions.length ? selectedOptions.map((o) => o.label).join(", ") : placeholder}
         </span>
-        <MdExpandMore className={`h-5 w-5 shrink-0 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <MdExpandMore className={`h-5 w-5 shrink-0 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </div>
 
       {isOpen && (
         <div
-          className="absolute z-[9999] mt-1 rounded-xl border border-gray-100 bg-white p-2 shadow-lg shadow-gray-200/40"
+          className="absolute z-[9999] mt-1 rounded-xl border border-slate-100 bg-white p-2 shadow-lg shadow-slate-200/40"
           style={{ width: containerRef.current?.offsetWidth ?? "100%" }}
         >
           <input
@@ -86,7 +86,7 @@ const SearchableMultiSelectField = ({
               </li>
             ))}
             {!filteredOptions.length && (
-              <p className="px-3 py-3 text-center text-sm text-gray-400">No results found</p>
+              <p className="px-3 py-3 text-center text-sm text-slate-400">No results found</p>
             )}
           </ul>
         </div>

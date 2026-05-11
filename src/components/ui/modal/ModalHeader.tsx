@@ -21,17 +21,17 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({
                                                    description,
                                                    icon: Icon,
 
-                                                   iconBg = "bg-gray-50",
-                                                   iconColor = "text-gray-700",
-                                                   iconBorder = "border-gray-200",
+                                                   iconBg = "bg-slate-50",
+                                                   iconColor = "text-slate-700",
+                                                   iconBorder = "border-slate-200",
 
-                                                   titleColor = "text-gray-900",
+                                                   titleColor = "text-slate-900",
                                                    descriptionColor = "text-slate-600",
 
                                                    onClose,
                                                  }) => {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-gray-200 py-5 px-4">
+    <div className="flex items-start justify-between gap-4 border-b border-slate-200 py-5 px-4">
 
       <div className="flex items-start gap-4">
 
@@ -60,7 +60,7 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({
         <button
           onClick={onClose}
           aria-label="Close dialog"
-          className="group flex h-9 w-9 items-center justify-center rounded-full text-gray-400 transition-all duration-200 hover:bg-gray-100 hover:text-gray-600"
+          className="group flex h-9 w-9 items-center justify-center rounded-full text-slate-400 transition-all duration-200 hover:bg-slate-100 hover:text-slate-600"
         >
           <XCircle className="h-5 w-5" strokeWidth={2} />
         </button>

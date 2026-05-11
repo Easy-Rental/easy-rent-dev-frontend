@@ -56,15 +56,15 @@ const SearchableDropdown = ({
           : "border-slate-200 bg-slate-50 hover:border-slate-300"
         }`}
       >
-        <span className={selectedLabel ? "text-blueSecondary" : "text-gray-400"}>
+        <span className={selectedLabel ? "text-blueSecondary" : "text-slate-400"}>
           {selectedLabel || placeholder}
         </span>
-        <MdExpandMore className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <MdExpandMore className={`h-5 w-5 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </div>
 
       {isOpen && (
         <div
-          className="absolute z-[9999] mt-1 rounded-xl border border-gray-100 bg-white p-2 shadow-lg shadow-gray-200/40"
+          className="absolute z-[9999] mt-1 rounded-xl border border-slate-100 bg-white p-2 shadow-lg shadow-slate-200/40"
           style={{ width: containerRef.current?.offsetWidth ?? "100%" }}
         >
           <input
@@ -83,7 +83,7 @@ const SearchableDropdown = ({
                   key={opt.value}
                   onClick={() => handleSelect(opt)}
                   className={`flex h-9 items-center rounded-lg px-3 text-sm transition-colors ${
-                    disabled ? "cursor-not-allowed text-gray-300" : "cursor-pointer text-blueSecondary hover:bg-brand-50"
+                    disabled ? "cursor-not-allowed text-slate-300" : "cursor-pointer text-blueSecondary hover:bg-brand-50"
                   }`}
                 >
                   {opt.label}
@@ -91,7 +91,7 @@ const SearchableDropdown = ({
               );
             })}
             {!filteredOptions.length && (
-              <p className="px-3 py-3 text-center text-sm text-gray-400">No results found</p>
+              <p className="px-3 py-3 text-center text-sm text-slate-400">No results found</p>
             )}
           </ul>
         </div>

@@ -26,7 +26,7 @@ const CheckSimpleBoxGroup = ({ label, field, options, formData, updateFormData, 
             {label} {required && <span className="text-red-500">*</span>}
           </label>
           {filteredOptions.length > 0 && (
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-slate-400">
               {filteredOptions.filter((o) => isSelected(o.id)).length} selected
             </span>
           )}
@@ -34,7 +34,7 @@ const CheckSimpleBoxGroup = ({ label, field, options, formData, updateFormData, 
 
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
-            <MdSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <MdSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Search..."
@@ -47,7 +47,7 @@ const CheckSimpleBoxGroup = ({ label, field, options, formData, updateFormData, 
             <button
               type="button"
               onClick={() => setSearch("")}
-              className="text-xs text-gray-400 hover:text-gray-600"
+              className="text-xs text-slate-400 hover:text-slate-600"
             >
               Clear
             </button>
@@ -64,7 +64,7 @@ const CheckSimpleBoxGroup = ({ label, field, options, formData, updateFormData, 
                   className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all ${
                     selected
                       ? "border-brand-500 bg-brand-50 text-brand-600"
-                      : "border-slate-200 bg-white text-gray-500 hover:border-slate-300"
+                      : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
                   }`}
                 >
                   <input
@@ -78,7 +78,7 @@ const CheckSimpleBoxGroup = ({ label, field, options, formData, updateFormData, 
               );
             })
           ) : (
-            <p className="py-4 text-center text-sm text-gray-400 w-full">No results found</p>
+            <p className="py-4 text-center text-sm text-slate-400 w-full">No results found</p>
           )}
         </div>
       </div>

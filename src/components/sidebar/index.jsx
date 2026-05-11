@@ -134,23 +134,23 @@ export default function Sidebar({ open, onClose }) {
       )}
 
       <aside
-        className={`fixed top-0 left-0 z-50 flex h-full w-[160px] flex-col bg-white border-r border-gray-100 transition-transform duration-300 xl:translate-x-0 ${
+        className={`fixed top-0 left-0 z-50 flex h-full w-[160px] flex-col bg-white border-r border-slate-100 transition-transform duration-300 xl:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* ── Logo ── */}
-        <div className="relative flex items-center justify-center py-5 border-b border-gray-100">
+        <div className="relative flex items-center justify-center py-5 border-b border-slate-100">
           <Link to="/" className="flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-500">
               <MdOutlineDirectionsCar className="h-4 w-4 text-white" />
             </div>
-            <span className="text-sm font-extrabold tracking-tight text-gray-900">
+            <span className="text-sm font-extrabold tracking-tight text-slate-900">
               Jom<span className="text-brand-500">Drivo</span>
             </span>
           </Link>
           <button
             onClick={onClose}
-            className="absolute right-2 top-3 rounded-lg p-1 text-gray-400 hover:bg-gray-100 xl:hidden"
+            className="absolute right-2 top-3 rounded-lg p-1 text-slate-400 hover:bg-slate-100 xl:hidden"
           >
             <HiX className="h-4 w-4" />
           </button>
@@ -176,10 +176,10 @@ export default function Sidebar({ open, onClose }) {
                       className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left transition-all duration-200 ${
                         parentActive
                           ? "bg-brand-50 text-brand-600"
-                          : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                          : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                       }`}
                     >
-                      <span className={parentActive ? "text-brand-500" : "text-gray-400"}>
+                      <span className={parentActive ? "text-brand-500" : "text-slate-400"}>
                         {link.icon}
                       </span>
                       <span className="flex-1 text-xs font-medium leading-none">
@@ -188,7 +188,7 @@ export default function Sidebar({ open, onClose }) {
                       <HiChevronDown
                         className={`h-3 w-3 shrink-0 transition-transform duration-200 ${
                           isOpen ? "rotate-180" : ""
-                        } ${parentActive ? "text-brand-400" : "text-gray-300"}`}
+                        } ${parentActive ? "text-brand-400" : "text-slate-300"}`}
                       />
                     </button>
                   ) : (
@@ -198,10 +198,10 @@ export default function Sidebar({ open, onClose }) {
                       className={`flex items-center gap-2 rounded-lg px-2 py-2 transition-all duration-200 ${
                         parentActive
                           ? "bg-brand-50 text-brand-600 font-semibold"
-                          : "text-gray-500 font-medium hover:bg-gray-50 hover:text-gray-900"
+                          : "text-slate-500 font-medium hover:bg-slate-50 hover:text-slate-900"
                       }`}
                     >
-                      <span className={parentActive ? "text-brand-500" : "text-gray-400"}>
+                      <span className={parentActive ? "text-brand-500" : "text-slate-400"}>
                         {link.icon}
                       </span>
                       <span className="text-xs">{link.name}</span>
@@ -215,7 +215,7 @@ export default function Sidebar({ open, onClose }) {
                       style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                     >
                       <div className="overflow-hidden">
-                        <ul className="mt-0.5 ml-3 space-y-0.5 border-l border-gray-100 pl-2 pb-0.5">
+                        <ul className="mt-0.5 ml-3 space-y-0.5 border-l border-slate-100 pl-2 pb-0.5">
                           {visibleChildren.map((child) => {
                             const childActive = isActive(child.path);
                             return (
@@ -226,12 +226,12 @@ export default function Sidebar({ open, onClose }) {
                                   className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-xs transition-all duration-200 ${
                                     childActive
                                       ? "text-brand-600 font-semibold"
-                                      : "text-gray-400 hover:text-gray-700"
+                                      : "text-slate-400 hover:text-slate-700"
                                   }`}
                                 >
                                   <span
                                     className={`h-1.5 w-1.5 rounded-full shrink-0 ${
-                                      childActive ? "bg-brand-500" : "bg-gray-300"
+                                      childActive ? "bg-brand-500" : "bg-slate-300"
                                     }`}
                                   />
                                   {child.name}
@@ -250,21 +250,21 @@ export default function Sidebar({ open, onClose }) {
         </nav>
 
         {/* ── Footer ── */}
-        <div className="border-t border-gray-100 p-2 space-y-0.5">
+        <div className="border-t border-slate-100 p-2 space-y-0.5">
           <Link
             to="/admin/profile"
             onClick={onClose}
             className={`flex items-center gap-2 rounded-lg px-2 py-2 transition-all duration-200 ${
               location.pathname.startsWith("/admin/profile")
                 ? "bg-brand-50 text-brand-600 font-semibold"
-                : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
             }`}
           >
             <HiOutlineUser
               className={`h-4 w-4 shrink-0 ${
                 location.pathname.startsWith("/admin/profile")
                   ? "text-brand-500"
-                  : "text-gray-400"
+                  : "text-slate-400"
               }`}
             />
             <span className="text-xs font-medium">Profile</span>
@@ -272,7 +272,7 @@ export default function Sidebar({ open, onClose }) {
 
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-gray-500 transition-all duration-200 hover:bg-red-50 hover:text-red-500"
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-slate-500 transition-all duration-200 hover:bg-red-50 hover:text-red-500"
           >
             <MdLogout className="h-4 w-4 shrink-0" />
             <span className="text-xs font-medium">Logout</span>

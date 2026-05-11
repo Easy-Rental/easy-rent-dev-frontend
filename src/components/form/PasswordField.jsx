@@ -43,7 +43,7 @@ const PasswordField = ({
         <button
           type="button"
           onClick={() => setShow((prev) => !prev)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
           aria-label={show ? "Hide password" : "Show password"}
         >
           {show ? <MdVisibilityOff className="h-4 w-4" /> : <MdVisibility className="h-4 w-4" />}

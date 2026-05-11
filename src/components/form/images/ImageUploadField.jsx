@@ -80,21 +80,21 @@ const ImageUploadField = ({
         <div className="flex flex-col items-center gap-2">
           <label className="group relative cursor-pointer">
             <div className="flex h-24 w-24 flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 transition-all group-hover:border-brand-400 group-hover:bg-brand-50">
-              <MdPhotoCamera className="h-6 w-6 text-gray-400 group-hover:text-brand-500" />
-              <span className="mt-1 text-[10px] font-medium text-gray-400 group-hover:text-brand-500">Upload</span>
+              <MdPhotoCamera className="h-6 w-6 text-slate-400 group-hover:text-brand-500" />
+              <span className="mt-1 text-[10px] font-medium text-slate-400 group-hover:text-brand-500">Upload</span>
             </div>
             <input type="file" multiple={multiple} accept={resolvedAccept} className="hidden" onChange={handleSimpleUpload} />
           </label>
-          <p className="text-xs text-gray-400">{resolvedLabel} accepted</p>
+          <p className="text-xs text-slate-400">{resolvedLabel} accepted</p>
         </div>
       )}
 
       {/* Document mode dropzone */}
       {showDropzone && !isSimpleMode && (
         <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-8 text-center transition-all hover:border-brand-400 hover:bg-brand-50">
-          <MdCloudUpload className="mb-2 h-8 w-8 text-gray-400" />
-          <p className="text-sm text-gray-500">Drag & drop or <span className="font-semibold text-brand-500">browse</span></p>
-          <p className="mt-1 text-xs text-gray-400">{resolvedLabel} accepted</p>
+          <MdCloudUpload className="mb-2 h-8 w-8 text-slate-400" />
+          <p className="text-sm text-slate-500">Drag & drop or <span className="font-semibold text-brand-500">browse</span></p>
+          <p className="mt-1 text-xs text-slate-400">{resolvedLabel} accepted</p>
           <input type="file" multiple={multiple} accept={resolvedAccept} className="hidden" onChange={handleDocUpload} />
         </label>
       )}
@@ -144,7 +144,7 @@ const ImageUploadField = ({
               </div>
             )}
           </div>
-          <p className="max-w-[140px] truncate text-center text-xs text-gray-500">{simpleFile.name}</p>
+          <p className="max-w-[140px] truncate text-center text-xs text-slate-500">{simpleFile.name}</p>
           {simpleUploading && (
             <div className="h-1 w-24 rounded-full bg-brand-100">
               <div className="h-full rounded-full bg-brand-500 transition-all" style={{ width: `${simpleProgress}%` }} />
@@ -166,7 +166,7 @@ const ImageUploadField = ({
               </div>
               <div className="min-w-0">
                 <p className={`truncate text-sm font-medium ${docFile.file_key ? "text-blueSecondary" : "text-red-600"}`}>{docFile.name}</p>
-                <p className={`text-xs ${docFile.file_key ? "text-gray-400" : "text-red-400"}`}>{docFile.size}</p>
+                <p className={`text-xs ${docFile.file_key ? "text-slate-400" : "text-red-400"}`}>{docFile.size}</p>
               </div>
             </div>
             {docFile.file_key && (

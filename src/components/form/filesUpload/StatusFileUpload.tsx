@@ -62,13 +62,13 @@ export default function StatusFileUpload({
           {label} {required && <span className="text-red-500">*</span>}
         </label>
         {description && (
-          <p className="mt-0.5 text-xs text-gray-400">{description}</p>
+          <p className="mt-0.5 text-xs text-slate-400">{description}</p>
         )}
       </div>
 
       <label
         htmlFor={id}
-        className="group relative flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-6 py-10 text-center transition-all duration-200 hover:border-brand-500 hover:bg-brand-50/40"
+        className="group relative flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 bg-white px-6 py-10 text-center transition-all duration-200 hover:border-brand-500 hover:bg-brand-50/40"
       >
         <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-md bg-brand-100 text-brand-500 transition">
           <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,8 +81,8 @@ export default function StatusFileUpload({
           </svg>
         </div>
 
-        <p className="text-sm font-semibold text-gray-800">{label}</p>
-        <p className="mt-2 text-xs text-gray-600">{ALLOWED_FILE_TYPES.label} â€“ Max 5MB</p>
+        <p className="text-sm font-semibold text-slate-800">{label}</p>
+        <p className="mt-2 text-xs text-slate-600">{ALLOWED_FILE_TYPES.label} â€“ Max 5MB</p>
 
         <input
           id={id}
@@ -95,9 +95,9 @@ export default function StatusFileUpload({
       </label>
 
       {file && (
-        <div className="rounded-md border border-gray-200 bg-white px-4 py-3">
+        <div className="rounded-md border border-slate-200 bg-white px-4 py-3">
           <div className="flex items-center justify-between">
-            <span className="truncate text-sm text-gray-500">{file.name}</span>
+            <span className="truncate text-sm text-slate-500">{file.name}</span>
             {!uploading && (
               <button
                 type="button"
@@ -114,7 +114,7 @@ export default function StatusFileUpload({
           </div>
 
           {uploading && (
-            <div className="mt-3 h-1.5 w-full rounded-md bg-gray-100">
+            <div className="mt-3 h-1.5 w-full rounded-md bg-slate-100">
               <div
                 className="h-full rounded-md bg-brand-500 transition-all duration-300"
                 style={{ width: `${progress}%` }}

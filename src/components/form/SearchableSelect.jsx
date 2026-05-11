@@ -59,15 +59,15 @@ const SearchableSelect = ({
             : "border-slate-200 bg-slate-50 hover:border-slate-300"
         }`}
       >
-        <span className={selectedLabel ? "text-blueSecondary" : "text-gray-400"}>
+        <span className={selectedLabel ? "text-blueSecondary" : "text-slate-400"}>
           {selectedLabel || placeholder}
         </span>
-        <MdExpandMore className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <MdExpandMore className={`h-5 w-5 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </div>
 
       {isOpen && (
         <div
-          className="absolute z-[9999] mt-1 rounded-xl border border-gray-100 bg-white p-2 shadow-lg shadow-gray-200/40"
+          className="absolute z-[9999] mt-1 rounded-xl border border-slate-100 bg-white p-2 shadow-lg shadow-slate-200/40"
           style={{ width: containerRef.current?.offsetWidth ?? "100%" }}
         >
           <input
@@ -91,8 +91,8 @@ const SearchableSelect = ({
             ))}
 
             {!filteredOptions.length && actions.length > 0 && (
-              <div className="border-t border-gray-100 pt-2 mt-1">
-                <p className="px-3 py-1.5 text-xs text-gray-400">No results found</p>
+              <div className="border-t border-slate-100 pt-2 mt-1">
+                <p className="px-3 py-1.5 text-xs text-slate-400">No results found</p>
                 {actions.map((action, i) => (
                   <li
                     key={i}
@@ -107,7 +107,7 @@ const SearchableSelect = ({
             )}
 
             {!filteredOptions.length && !actions.length && (
-              <p className="px-3 py-3 text-center text-sm text-gray-400">No results found</p>
+              <p className="px-3 py-3 text-center text-sm text-slate-400">No results found</p>
             )}
           </ul>
         </div>

@@ -14,19 +14,19 @@ export default function ServicesSection() {
       <div className="mx-auto max-w-7xl">
         <div className="sr mb-14 text-center">
           <p className="mb-2 text-xs font-bold uppercase tracking-widest text-brand-500">Why JomDrivo</p>
-          <h2 className="text-4xl font-black text-gray-900 md:text-5xl">
+          <h2 className="text-4xl font-black text-slate-900 md:text-5xl">
             Everything You Need,<br/>Nothing You Don't
           </h2>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((s, i) => (
             <div key={s.title}
-              className={`sr d${i + 1} group rounded-2xl border border-gray-100 bg-white p-7 hover:shadow-xl hover:shadow-gray-200/60 hover:-translate-y-2 transition-all duration-300`}>
+              className={`sr d${i + 1} group rounded-2xl border border-slate-100 bg-white p-7 hover:shadow-xl hover:shadow-slate-200/60 hover:-translate-y-2 transition-all duration-300`}>
               <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-500 group-hover:bg-brand-500 group-hover:text-white transition-all duration-300 group-hover:scale-110">
                 {s.icon}
               </div>
-              <h3 className="mb-2 text-base font-bold text-gray-900">{s.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
+              <h3 className="mb-2 text-base font-bold text-slate-900">{s.title}</h3>
+              <p className="text-sm text-slate-500 leading-relaxed">{s.desc}</p>
             </div>
           ))}
         </div>

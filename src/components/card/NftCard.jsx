@@ -19,7 +19,7 @@ const NftCard = ({ title, author, price, image, bidders, extra }) => {
             onClick={() => setHeart(!heart)}
             className="absolute top-3 right-3 flex items-center justify-center rounded-full bg-white p-2 text-brand-500 hover:cursor-pointer"
           >
-            <div className="flex h-full w-full items-center justify-center rounded-full text-xl hover:bg-gray-50">
+            <div className="flex h-full w-full items-center justify-center rounded-full text-xl hover:bg-slate-50">
               {heart ? (
                 <IoHeartOutline />
               ) : (
@@ -35,7 +35,7 @@ const NftCard = ({ title, author, price, image, bidders, extra }) => {
               {" "}
               {title}{" "}
             </p>
-            <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2">
+            <p className="mt-1 text-sm font-medium text-slate-600 md:mt-2">
               By {author}{" "}
             </p>
           </div>

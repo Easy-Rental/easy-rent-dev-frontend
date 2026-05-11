@@ -11,7 +11,7 @@ const SwitchField = (props) => {
         <h5 className="text-base font-bold text-navy-700">
           {label}
         </h5>
-        <p className={`text-base text-gray-600`}>{desc}</p>
+        <p className={`text-base text-slate-600`}>{desc}</p>
       </label>
       <div>
         <Switch id={id} />

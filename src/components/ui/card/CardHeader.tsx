@@ -14,14 +14,14 @@ const CardHeader: React.FC<CardHeaderProps> = ({
                                                  title,
                                                  description,
                                                  icon: Icon,
-                                                 iconBg = "bg-gray-50",
-                                                 iconColor = "text-gray-700",
+                                                 iconBg = "bg-slate-50",
+                                                 iconColor = "text-slate-700",
                                                  bordered = true,
                                                }) => {
   return (
     <div
       className={`flex items-start gap-4 p-6 ${
-        bordered ? "border-b border-gray-100" : ""
+        bordered ? "border-b border-slate-100" : ""
       }`}
     >
       <div

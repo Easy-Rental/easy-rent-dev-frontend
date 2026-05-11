@@ -63,8 +63,8 @@ export default function SignIn() {
     <div>
       {/* Heading */}
       <div className="mb-8">
-        <h1 className="text-2xl font-extrabold text-gray-900">Sign in</h1>
-        <p className="mt-1.5 text-sm text-gray-400">
+        <h1 className="text-2xl font-extrabold text-slate-900">Sign in</h1>
+        <p className="mt-1.5 text-sm text-slate-400">
           Welcome back — enter your details to continue
         </p>
       </div>
@@ -92,7 +92,7 @@ export default function SignIn() {
         />
 
         <div className="mb-6 flex items-center justify-between">
-          <label className="flex cursor-pointer select-none items-center gap-2 text-sm text-gray-500">
+          <label className="flex cursor-pointer select-none items-center gap-2 text-sm text-slate-500">
             <input
               type="checkbox"
               checked={remember}
@@ -129,7 +129,7 @@ export default function SignIn() {
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-400">
+      <p className="mt-6 text-center text-sm text-slate-400">
         Don't have an account?{" "}
         <Link to="/auth/sign-up" className="font-semibold text-brand-500 hover:text-brand-400">
           Sign up

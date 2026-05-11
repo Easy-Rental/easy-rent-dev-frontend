@@ -48,8 +48,8 @@ const ArrayObjectField = ({ label, subLabel, field, formData, errors, updateForm
 
       {arrayValue.map((item, index) => (
         <div key={index} className="space-y-3 rounded-xl border border-slate-200 bg-white p-4">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-            <span className="text-sm font-medium text-gray-500">{subLabel} {index + 1}</span>
+          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+            <span className="text-sm font-medium text-slate-500">{subLabel} {index + 1}</span>
             <button
               type="button"
               onClick={() => removeRow(index)}
@@ -65,7 +65,7 @@ const ArrayObjectField = ({ label, subLabel, field, formData, errors, updateForm
               const errorMsg = getNestedValue(errors, `${field}[${index}].${f.key}`);
               return (
                 <div key={f.key}>
-                  <label className="mb-1 block text-xs font-medium text-gray-500">{f.label}</label>
+                  <label className="mb-1 block text-xs font-medium text-slate-500">{f.label}</label>
                   <input
                     type={f.type || "text"}
                     value={item?.[f.key] ?? ""}

@@ -11,7 +11,7 @@ function LoadingScreen() {
         <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50">
           <MdDirectionsCar className="h-7 w-7 animate-pulse text-brand-500" />
         </div>
-        <p className="text-sm font-medium text-gray-400">Loading...</p>
+        <p className="text-sm font-medium text-slate-400">Loading...</p>
       </div>
     </div>
   );

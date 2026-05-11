@@ -17,9 +17,9 @@ const SettingToggleInput = ({ label, field, formData, updateFormData, errors }) 
       >
         <div className="flex flex-col">
           <span className="text-sm font-semibold text-blueSecondary">{label}</span>
-          <span className="mt-0.5 text-xs text-gray-400">Click to toggle</span>
+          <span className="mt-0.5 text-xs text-slate-400">Click to toggle</span>
         </div>
-        <div className={`relative h-6 w-11 shrink-0 rounded-full transition-all duration-200 ${selected ? "bg-brand-500" : "bg-gray-200"}`}>
+        <div className={`relative h-6 w-11 shrink-0 rounded-full transition-all duration-200 ${selected ? "bg-brand-500" : "bg-slate-200"}`}>
           <div className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-md transition-transform duration-200 ${selected ? "translate-x-5" : "translate-x-0.5"}`} />
         </div>
       </label>

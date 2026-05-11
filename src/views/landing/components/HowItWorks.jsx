@@ -14,7 +14,7 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-7xl">
         <div className="sr mb-14 text-center">
           <p className="mb-2 text-xs font-bold uppercase tracking-widest text-brand-500">Simple Process</p>
-          <h2 className="text-4xl font-black text-gray-900 md:text-5xl">Ready in 3 Easy Steps</h2>
+          <h2 className="text-4xl font-black text-slate-900 md:text-5xl">Ready in 3 Easy Steps</h2>
         </div>
         <div className="relative grid gap-8 md:grid-cols-3">
           <div className="absolute top-10 left-[17%] right-[17%] hidden h-0.5 step-line md:block opacity-30"/>
@@ -24,12 +24,12 @@ export default function HowItWorks() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-500 text-white">
                   {s.icon}
                 </div>
-                <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-900 text-[10px] font-black text-white">
+                <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-[10px] font-black text-white">
                   {s.num}
                 </span>
               </div>
-              <h3 className="mb-2 text-lg font-bold text-gray-900">{s.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-xs">{s.desc}</p>
+              <h3 className="mb-2 text-lg font-bold text-slate-900">{s.title}</h3>
+              <p className="text-sm text-slate-500 leading-relaxed max-w-xs">{s.desc}</p>
             </div>
           ))}
         </div>

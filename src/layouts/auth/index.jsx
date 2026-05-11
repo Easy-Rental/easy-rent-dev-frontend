@@ -42,7 +42,7 @@ export default function Auth() {
       </div>
 
       {/* ── Right — image panel ── */}
-      <div className="relative hidden md:sticky md:top-0 md:block md:h-screen md:w-1/2 bg-gray-900 shrink-0">
+      <div className="relative hidden md:sticky md:top-0 md:block md:h-screen md:w-1/2 bg-slate-900 shrink-0">
         <img
           src={hondaImg}
           alt="JomDrivo"

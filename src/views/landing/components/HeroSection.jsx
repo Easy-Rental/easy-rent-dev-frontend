@@ -145,10 +145,10 @@ export default function HeroSection() {
       </section>
 
       {/* ── Features strip — white, brand accents ── */}
-      <section className="bg-white border-b border-gray-100">
+      <section className="bg-white border-b border-slate-100">
         <div className="mx-auto max-w-7xl">
-          {/* gap-px + parent bg-gray-100 = 1 px dividers between columns */}
-          <div className="grid grid-cols-1 gap-px bg-gray-100 md:grid-cols-3">
+          {/* gap-px + parent bg-slate-100 = 1 px dividers between columns */}
+          <div className="grid grid-cols-1 gap-px bg-slate-100 md:grid-cols-3">
             {FEATURES.map(({ Icon, title, desc }) => (
               <div
                 key={title}
@@ -157,8 +157,8 @@ export default function HeroSection() {
                 <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 transition-transform duration-300 group-hover:scale-110">
                   <Icon className="h-6 w-6 text-brand-500" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500">{desc}</p>
+                <h3 className="text-base font-bold text-slate-900">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500">{desc}</p>
               </div>
             ))}
           </div>

@@ -28,11 +28,11 @@ const FileUploadToggleField = ({
             <p className="text-sm font-medium text-blueSecondary">
               {toggleLabel}{required && <span className="ml-1 text-red-500">*</span>}
             </p>
-            <p className="text-xs text-gray-400">Enable to allow file upload</p>
+            <p className="text-xs text-slate-400">Enable to allow file upload</p>
           </div>
           <label className="relative inline-flex cursor-pointer items-center">
             <input type="checkbox" checked={enabled} onChange={onToggle} className="peer sr-only" />
-            <div className="h-6 w-11 rounded-full bg-gray-200 transition-colors peer-checked:bg-brand-500" />
+            <div className="h-6 w-11 rounded-full bg-slate-200 transition-colors peer-checked:bg-brand-500" />
             <div className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5" />
           </label>
         </div>
@@ -43,9 +43,9 @@ const FileUploadToggleField = ({
 
             {!file && (
               <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-white px-6 py-6 text-center transition-all hover:border-brand-400 hover:bg-brand-50">
-                <MdCloudUpload className="mb-2 h-7 w-7 text-gray-400" />
-                <p className="text-sm text-gray-500">Drag & drop or <span className="font-semibold text-brand-500">browse</span></p>
-                <p className="mt-1 text-xs text-gray-400">{accept === "*" ? "All files supported" : accept}</p>
+                <MdCloudUpload className="mb-2 h-7 w-7 text-slate-400" />
+                <p className="text-sm text-slate-500">Drag & drop or <span className="font-semibold text-brand-500">browse</span></p>
+                <p className="mt-1 text-xs text-slate-400">{accept === "*" ? "All files supported" : accept}</p>
                 <input type="file" multiple={multiple} accept={accept} className="hidden" onChange={handleUpload} />
               </label>
             )}
@@ -59,7 +59,7 @@ const FileUploadToggleField = ({
                     </div>
                     <div className="min-w-0">
                       <p className="truncate text-sm font-medium text-blueSecondary">{file.name}</p>
-                      <p className="text-xs text-gray-400">{file.size}</p>
+                      <p className="text-xs text-slate-400">{file.size}</p>
                     </div>
                   </div>
                   <button
@@ -71,7 +71,7 @@ const FileUploadToggleField = ({
                   </button>
                 </div>
                 {file.uploading && (
-                  <div className="mt-3 h-1 w-full rounded-full bg-gray-100">
+                  <div className="mt-3 h-1 w-full rounded-full bg-slate-100">
                     <div className="h-full rounded-full bg-brand-500 transition-all" style={{ width: `${file.progress || 0}%` }} />
                   </div>
                 )}

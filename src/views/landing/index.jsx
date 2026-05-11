@@ -43,10 +43,10 @@ export default function LandingPage() {
         .sr.d3.sr-show{transition-delay:.28s}
         .sr.d4.sr-show{transition-delay:.38s}
 
-        .step-line{background:linear-gradient(90deg,#2F6BFF,#4D82FF)}
+        .step-line{background:linear-gradient(90deg,#FF8533,#FF9B4D)}
       `}</style>
 
-      <div className="min-h-screen bg-white font-montserrat text-gray-900 overflow-x-hidden">
+      <div className="min-h-screen bg-white font-montserrat text-slate-900 overflow-x-hidden">
         <HeroSection />
         <BrandsSection />
         <ServicesSection />

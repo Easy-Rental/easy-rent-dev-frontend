@@ -38,11 +38,11 @@ const FileUploadField = ({
 
       {!file && (
         <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 px-6 py-8 text-center transition-all hover:border-brand-400 hover:bg-brand-50">
-          <MdCloudUpload className="mb-2 h-8 w-8 text-gray-400" />
-          <p className="text-sm text-gray-500">
+          <MdCloudUpload className="mb-2 h-8 w-8 text-slate-400" />
+          <p className="text-sm text-slate-500">
             Drag & drop or <span className="font-semibold text-brand-500">browse</span>
           </p>
-          <p className="mt-1 text-xs text-gray-400">PDF, JPG, PNG accepted</p>
+          <p className="mt-1 text-xs text-slate-400">PDF, JPG, PNG accepted</p>
           <input type="file" multiple={multiple} accept={accept} className="hidden" onChange={handleUpload} />
         </label>
       )}
@@ -56,7 +56,7 @@ const FileUploadField = ({
               </div>
               <div className="min-w-0">
                 <p className={`truncate text-sm font-medium ${file.file_key ? "text-blueSecondary" : "text-red-600"}`}>{file.name}</p>
-                <p className={`text-xs ${file.file_key ? "text-gray-400" : "text-red-400"}`}>{file.size}</p>
+                <p className={`text-xs ${file.file_key ? "text-slate-400" : "text-red-400"}`}>{file.size}</p>
               </div>
             </div>
             {file.file_key && (

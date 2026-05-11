@@ -60,10 +60,10 @@ export default function IntakeDatePicker({
               onClick={() => onChange(date)}
               className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
                 past
-                  ? "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 line-through"
+                  ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-400 line-through"
                   : selected
                   ? "border border-brand-500 bg-brand-500 text-white shadow-sm"
-                  : "border border-gray-200 bg-white text-gray-700 hover:border-brand-400 hover:text-brand-500"
+                  : "border border-slate-200 bg-white text-slate-700 hover:border-brand-400 hover:text-brand-500"
               }`}
             >
               {formatLabel(date)}

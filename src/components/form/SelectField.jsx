@@ -26,7 +26,7 @@ const SelectField = ({ label, field, options, required = true, formData, errors,
             : "border-slate-200 bg-slate-50 focus:border-brand-500 focus:bg-white"
         }`}
       >
-        <option value="" className="text-gray-400">Select ...</option>
+        <option value="" className="text-slate-400">Select ...</option>
         {options.map((opt, index) =>
           typeof opt === "object" && opt !== null ? (
             <option key={opt.value ?? index} value={opt.value ?? ""}>

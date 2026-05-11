@@ -18,11 +18,11 @@ const ToggleInput = ({ label, field, formData, updateFormData, errors, required 
       >
         <div className="flex flex-col">
           <span className="text-sm font-medium text-blueSecondary">{selected ? "Enabled" : "Disabled"}</span>
-          <span className="text-xs text-gray-400">Click to toggle</span>
+          <span className="text-xs text-slate-400">Click to toggle</span>
         </div>
         <div className="relative">
           <input type="checkbox" checked={selected} onChange={() => updateFormData(field, !selected)} className="peer sr-only" />
-          <div className="h-6 w-11 rounded-full bg-gray-200 transition-colors peer-checked:bg-brand-500" />
+          <div className="h-6 w-11 rounded-full bg-slate-200 transition-colors peer-checked:bg-brand-500" />
           <div className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5" />
         </div>
       </label>

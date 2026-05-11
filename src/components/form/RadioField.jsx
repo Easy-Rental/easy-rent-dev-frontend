@@ -26,7 +26,7 @@ const RadioField = ({ label, field, options, formData, errors, updateFormData, r
             } ${
               value === opt.value
                 ? "border-brand-500 bg-brand-50 text-brand-600"
-                : "border-slate-200 bg-slate-50 text-gray-500 hover:border-slate-300 hover:bg-white"
+                : "border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300 hover:bg-white"
             }`}
           >
             <input

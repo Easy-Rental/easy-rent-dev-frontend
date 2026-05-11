@@ -68,7 +68,7 @@ export default function Navbar() {
           </div>
           <span
             className={`text-lg font-bold tracking-tight transition-colors duration-300 ${
-              solid ? "text-gray-900" : "text-white"
+              solid ? "text-slate-900" : "text-white"
             }`}
           >
             Jom<span className="text-brand-500">Drivo</span>
@@ -86,7 +86,7 @@ export default function Navbar() {
                     solid
                       ? fleetOpen
                         ? "bg-brand-50 text-brand-600"
-                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                       : fleetOpen
                         ? "bg-white/15 text-white"
                         : "text-white/80 hover:bg-white/10 hover:text-white"
@@ -102,7 +102,7 @@ export default function Navbar() {
 
                 {/* Dropdown panel */}
                 <div
-                  className={`absolute left-0 top-full mt-1 w-64 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-200 ${
+                  className={`absolute left-0 top-full mt-1 w-64 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-xl transition-all duration-200 ${
                     fleetOpen
                       ? "translate-y-0 opacity-100 pointer-events-auto"
                       : "-translate-y-2 opacity-0 pointer-events-none"
@@ -116,16 +116,16 @@ export default function Navbar() {
                         onClick={() => setFleetOpen(false)}
                         className="flex flex-col rounded-lg px-4 py-3 transition-colors duration-150 hover:bg-brand-50"
                       >
-                        <span className="text-sm font-semibold text-gray-900">
+                        <span className="text-sm font-semibold text-slate-900">
                           {item.label}
                         </span>
-                        <span className="mt-0.5 text-xs text-gray-400">
+                        <span className="mt-0.5 text-xs text-slate-400">
                           {item.sub}
                         </span>
                       </a>
                     ))}
                   </div>
-                  <div className="border-t border-gray-100 px-4 py-3">
+                  <div className="border-t border-slate-100 px-4 py-3">
                     <a
                       href="#fleet"
                       onClick={() => setFleetOpen(false)}
@@ -142,7 +142,7 @@ export default function Navbar() {
                 href={link.href}
                 className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
                   solid
-                    ? "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                    ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                     : "text-white/80 hover:bg-white/10 hover:text-white"
                 }`}
               >
@@ -158,7 +158,7 @@ export default function Navbar() {
             to="/auth/sign-in"
             className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200 ${
               solid
-                ? "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                 : "text-white/80 hover:bg-white/10 hover:text-white"
             }`}
           >
@@ -178,7 +178,7 @@ export default function Navbar() {
           aria-label="Toggle menu"
           className={`md:hidden rounded-lg p-2 transition-colors duration-200 ${
             solid
-              ? "text-gray-700 hover:bg-gray-100"
+              ? "text-slate-700 hover:bg-slate-100"
               : "text-white hover:bg-white/10"
           }`}
         >
@@ -192,17 +192,17 @@ export default function Navbar() {
         style={{ gridTemplateRows: menuOpen ? "1fr" : "0fr" }}
       >
         <div className="overflow-hidden">
-          <div className="space-y-0.5 border-t border-gray-100 bg-white px-6 pb-5 pt-3">
+          <div className="space-y-0.5 border-t border-slate-100 bg-white px-6 pb-5 pt-3">
             {NAV_LINKS.map((link) =>
               link.hasDropdown ? (
                 <div key={link.label}>
                   <button
                     onClick={() => setMobileFleet((v) => !v)}
-                    className="flex w-full items-center justify-between py-2.5 text-sm font-medium text-gray-700"
+                    className="flex w-full items-center justify-between py-2.5 text-sm font-medium text-slate-700"
                   >
                     {link.label}
                     <MdKeyboardArrowDown
-                      className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${
+                      className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${
                         mobileFleet ? "rotate-180" : ""
                       }`}
                     />
@@ -219,10 +219,10 @@ export default function Navbar() {
                             key={item.label}
                             href={item.href}
                             onClick={() => { setMenuOpen(false); setMobileFleet(false); }}
-                            className="block py-2 text-sm text-gray-500 hover:text-brand-600 transition-colors"
+                            className="block py-2 text-sm text-slate-500 hover:text-brand-600 transition-colors"
                           >
                             {item.label}
-                            <span className="ml-2 text-xs text-gray-400">{item.sub}</span>
+                            <span className="ml-2 text-xs text-slate-400">{item.sub}</span>
                           </a>
                         ))}
                       </div>
@@ -234,7 +234,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="block py-2.5 text-sm font-medium text-gray-700 hover:text-brand-600 transition-colors"
+                  className="block py-2.5 text-sm font-medium text-slate-700 hover:text-brand-600 transition-colors"
                 >
                   {link.label}
                 </a>
@@ -245,7 +245,7 @@ export default function Navbar() {
               <Link
                 to="/auth/sign-in"
                 onClick={() => setMenuOpen(false)}
-                className="block rounded-full border border-gray-200 py-2.5 text-center text-sm font-semibold text-gray-700 transition-all hover:border-brand-300 hover:text-brand-600"
+                className="block rounded-full border border-slate-200 py-2.5 text-center text-sm font-semibold text-slate-700 transition-all hover:border-brand-300 hover:text-brand-600"
               >
                 Sign In
               </Link>

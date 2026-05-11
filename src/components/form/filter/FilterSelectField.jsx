@@ -4,7 +4,7 @@ export default function FilterSelectField({ value, onChange, options = [], icon:
   return (
     <div className="relative flex-1 sm:flex-none">
       {Icon && (
-        <Icon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+        <Icon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
       )}
       <select
         value={value}

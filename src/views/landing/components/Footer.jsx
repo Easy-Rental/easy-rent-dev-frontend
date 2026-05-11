@@ -20,11 +20,11 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 overflow-hidden">
+    <footer className="bg-slate-900 overflow-hidden">
       <div className="mx-auto max-w-7xl px-10 pt-12 pb-8">
 
         {/* ── Links row ── */}
-        <div className="grid gap-8 grid-cols-2 lg:grid-cols-4 pt-10 pb-10 border-b border-gray-700">
+        <div className="grid gap-8 grid-cols-2 lg:grid-cols-4 pt-10 pb-10 border-b border-slate-700">
 
           {/* Brand */}
           <div>
@@ -36,7 +36,7 @@ export default function Footer() {
                 Jom<span className="text-brand-500">Drivo</span>
               </span>
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-slate-400 leading-relaxed">
               We provide several vehicles such as sedans, SUVs, and MPVs that suit
               your personal or business needs across Malaysia.
             </p>
@@ -49,7 +49,7 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l}>
-                    <span className="text-sm text-gray-400">{l}</span>
+                    <span className="text-sm text-slate-400">{l}</span>
                   </li>
                 ))}
               </ul>
@@ -59,7 +59,7 @@ export default function Footer() {
 
         {/* ── Bottom bar ── */}
         <div className="flex items-center justify-between pt-6">
-          <p className="text-sm text-gray-500">© {new Date().getFullYear()} JomDrivo. All Rights Reserved.</p>
+          <p className="text-sm text-slate-500">© {new Date().getFullYear()} JomDrivo. All Rights Reserved.</p>
           <div className="flex items-center gap-3">
             {[
               { Icon: FaTwitter,  href: "https://twitter.com/jomdrivo"   },
@@ -67,7 +67,7 @@ export default function Footer() {
               { Icon: FaFacebook, href: "https://facebook.com/jomdrivo"  },
             ].map(({ Icon, href }, i) => (
               <a key={i} href={href}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:border-white hover:text-white transition-all">
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 text-slate-400 hover:border-white hover:text-white transition-all">
                 <Icon className="h-4 w-4"/>
               </a>
             ))}

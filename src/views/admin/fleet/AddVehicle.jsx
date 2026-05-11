@@ -53,18 +53,18 @@ export default function AddVehicle() {
         <button
           type="button"
           onClick={() => navigate("/admin/fleet")}
-          className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-400 hover:text-gray-600 transition-colors"
+          className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-400 hover:text-slate-600 transition-colors"
         >
           <MdArrowBack className="h-5 w-5" />
         </button>
         <div>
-          <h2 className="text-xl font-extrabold text-gray-900">Add New Vehicle</h2>
-          <p className="text-sm text-gray-400">Fill in the details to add a vehicle to your fleet</p>
+          <h2 className="text-xl font-extrabold text-slate-900">Add New Vehicle</h2>
+          <p className="text-sm text-slate-400">Fill in the details to add a vehicle to your fleet</p>
         </div>
       </div>
 
       {/* ── Form card ── */}
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
         {/* Vehicle icon preview */}
         <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-brand-50">
           <MdDirectionsCar className="h-10 w-10 text-brand-500" />
@@ -158,7 +158,7 @@ export default function AddVehicle() {
             <button
               type="button"
               onClick={() => navigate("/admin/fleet")}
-              className="flex-1 rounded-xl border border-gray-200 py-3 text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+              className="flex-1 rounded-xl border border-slate-200 py-3 text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
             >
               Cancel
             </button>
