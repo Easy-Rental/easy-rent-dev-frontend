@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { MdDirectionsCar } from "react-icons/md";
 import { FaTwitter, FaYoutube, FaFacebook } from "react-icons/fa";
@@ -19,12 +19,6 @@ const footerLinks = [
 ];
 
 export default function Footer() {
-  const [formData, setFormData] = useState({ name: "", email: "" });
-  const [errors]                = useState({});
-
-  const updateFormData = (field, value) =>
-    setFormData((prev) => ({ ...prev, [field]: value }));
-
   return (
     <footer className="bg-gray-900 overflow-hidden">
       <div className="mx-auto max-w-7xl px-10 pt-12 pb-8">
@@ -55,7 +49,7 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l}>
-                    <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">{l}</a>
+                    <span className="text-sm text-gray-400">{l}</span>
                   </li>
                 ))}
               </ul>

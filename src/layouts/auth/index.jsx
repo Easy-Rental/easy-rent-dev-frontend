@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate, Link } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { FaInstagram, FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import { MdMailOutline } from "react-icons/md";
 import hondaImg from "assets/img/auth/honda-auth-signin.jpg";

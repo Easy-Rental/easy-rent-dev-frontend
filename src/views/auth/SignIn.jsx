@@ -101,9 +101,9 @@ export default function SignIn() {
             />
             Remember me
           </label>
-          <a href="#" className="text-sm font-medium text-brand-500 hover:text-brand-400">
+          <button type="button" className="text-sm font-medium text-brand-500 hover:text-brand-400">
             Forgot password?
-          </a>
+          </button>
         </div>
 
         {apiError && (

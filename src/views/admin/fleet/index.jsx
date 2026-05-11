@@ -8,7 +8,6 @@ import {
   MdEdit,
   MdDeleteOutline,
   MdStar,
-  MdFilterList,
 } from "react-icons/md";
 import { vehicles as initialVehicles, STATUS_STYLE } from "./data";
 

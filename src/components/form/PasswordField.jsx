@@ -4,7 +4,7 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 const getNestedValue = (obj, path) => {
   if (!path) return undefined;
   return path
-    .split(/[\.\[\]]/)
+    .split(/[.[\]]/)
     .filter(Boolean)
     .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 };
