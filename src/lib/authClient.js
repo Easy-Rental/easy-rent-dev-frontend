@@ -18,8 +18,13 @@ export const userStorage = {
 
 const API_BASE = (process.env.REACT_APP_API_URL ?? "").trim();
 
+// better-auth requires an absolute URL — fall back to current origin when env var is missing
+const AUTH_BASE_URL = API_BASE
+  ? `${API_BASE}/auth`
+  : `${window.location.origin}/auth`;
+
 export const authClient = createAuthClient({
-  baseURL: `${API_BASE}/auth`,
+  baseURL: AUTH_BASE_URL,
   plugins: [adminClient()],
   fetchOptions: {
     credentials: "include",
