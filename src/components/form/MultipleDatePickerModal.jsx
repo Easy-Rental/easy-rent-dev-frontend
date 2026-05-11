@@ -1,4 +1,4 @@
-mport React from "react";
+import React from "react";
 import { MdDeleteOutline, MdAddCircle } from "react-icons/md";
 
 const getNestedValue = (obj, path) => {

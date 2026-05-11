@@ -1,4 +1,4 @@
-mport React from "react";
+import React from "react";
 import { MdArrowForward } from "react-icons/md";
 
 const NextButton = ({ onClick, disabled, text = "Next", icon, className = "" }) => {

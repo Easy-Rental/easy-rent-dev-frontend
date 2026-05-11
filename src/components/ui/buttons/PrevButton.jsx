@@ -1,4 +1,4 @@
-mport React from "react";
+import React from "react";
 import { MdArrowBack } from "react-icons/md";
 
 const PrevButton = ({ onClick, disabled, text = "Back", icon, className = "" }) => {

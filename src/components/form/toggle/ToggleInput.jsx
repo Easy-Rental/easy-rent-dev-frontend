@@ -1,4 +1,4 @@
-mport React from "react";
+import React from "react";
 
 const ToggleInput = ({ label, field, formData, updateFormData, errors, required = false }) => {
   const selected = Boolean(formData[field]);

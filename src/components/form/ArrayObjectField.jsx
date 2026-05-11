@@ -1,4 +1,4 @@
-mport React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import { MdDeleteOutline, MdAddCircle } from "react-icons/md";
 
 const getNestedValue = (obj, path) => {

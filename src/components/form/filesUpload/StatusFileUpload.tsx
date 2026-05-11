@@ -1,4 +1,4 @@
-mport React from "react";
+import React from "react";
 import { Trash2 } from "lucide-react";
 import { ALLOWED_FILE_TYPES } from "services/uploadService";
 import { useToast } from "components/context/ToastContext";
