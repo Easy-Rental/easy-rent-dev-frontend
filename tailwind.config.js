@@ -161,9 +161,9 @@ module.exports = {
     },
     colors: () => ({
       white: "#ffffff",
-      lightPrimary: "#F2F2F2",
-      blueSecondary: "#0A0A0A",
-      brandLinear: "#2F6BFF",
+      lightPrimary: "#F9F9F9",
+      blueSecondary: "#1A1A1A",
+      brandLinear: "#FF8533",
       gray: {
         50: "#f8f9fa",
         100: "#edf2f7",
@@ -345,17 +345,18 @@ module.exports = {
         900: "#0f172a",
       },
       brand: {
-        50:  "#eef3ff",
-        100: "#dce8ff",
-        200: "#b9d1ff",
-        300: "#87b0ff",
-        400: "#4D82FF",  /* link hover — official brand spec */
-        500: "#2F6BFF",  /* Drive Blue — primary */
-        600: "#2457d9",  /* button hover */
-        700: "#1a42b3",
-        800: "#112e8c",
-        900: "#091d66",
+        50:  "#FFF4EC",
+        100: "#FFE4CC",
+        200: "#FFC999",
+        300: "#FFAD66",
+        400: "#FF9B4D",
+        500: "#FF8533",  /* Primary Action — orange */
+        600: "#E06A1A",  /* button hover */
+        700: "#B85000",
+        800: "#8A3B00",
+        900: "#5C2700",
       },
+      charcoal: "#1A1A1A",
       shadow: {
         500: "rgba(112, 144, 176, 0.08)",
       },
