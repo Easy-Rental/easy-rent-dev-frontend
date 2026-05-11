@@ -15,6 +15,13 @@ import UserEditPage      from "views/admin/users/UserEditPage";
 import UserProfilePage   from "views/admin/users/UserProfilePage";
 import TrainerCreatePage from "views/admin/users/UserTrainerCreatePage";
 
+// Admin — partners
+import PartnersPage            from "views/admin/partners/PartnersPage";
+import PartnerCreatePage       from "views/admin/partners/PartnerCreatePage";
+import PartnerEditPage         from "views/admin/partners/PartnerEditPage";
+import PartnerProfilePage      from "views/admin/partners/PartnerProfilePage";
+import PartnerDriverCreatePage from "views/admin/partners/PartnerDriverCreatePage";
+
 // Admin — stubs
 import Bookings       from "views/admin/bookings";
 import Notifications  from "views/admin/notifications";
@@ -58,11 +65,16 @@ const routes = [
     icon: <MdOutlineDirectionsCar className="h-6 w-6" />,
     component: <AddVehicle />,
   },
-  { name: "Users",           layout: "/admin", path: "users",                 component: <UsersPage />        },
-  { name: "Create User",     layout: "/admin", path: "users/create",          component: <UserCreatePage />   },
-  { name: "Create Trainer",  layout: "/admin", path: "users/trainer/create",  component: <TrainerCreatePage />},
-  { name: "User Profile",    layout: "/admin", path: "users/:uid",            component: <UserProfilePage />  },
-  { name: "Edit User",       layout: "/admin", path: "users/:uid/edit",       component: <UserEditPage />     },
+  { name: "Users",           layout: "/admin", path: "users",                    component: <UsersPage />              },
+  { name: "Create User",     layout: "/admin", path: "users/create",             component: <UserCreatePage />         },
+  { name: "Create Trainer",  layout: "/admin", path: "users/trainer/create",     component: <TrainerCreatePage />      },
+  { name: "User Profile",    layout: "/admin", path: "users/:uid",               component: <UserProfilePage />        },
+  { name: "Edit User",       layout: "/admin", path: "users/:uid/edit",          component: <UserEditPage />           },
+  { name: "Partners",           layout: "/admin", path: "partners",                 component: <PartnersPage />           },
+  { name: "Create Partner",     layout: "/admin", path: "partners/create",          component: <PartnerCreatePage />      },
+  { name: "Create Driver",      layout: "/admin", path: "partners/driver/create",   component: <PartnerDriverCreatePage />},
+  { name: "Partner Profile",    layout: "/admin", path: "partners/:uid",            component: <PartnerProfilePage />     },
+  { name: "Edit Partner",       layout: "/admin", path: "partners/:uid/edit",       component: <PartnerEditPage />        },
   {
     name: "Bookings",
     layout: "/admin",
