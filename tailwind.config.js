@@ -108,6 +108,7 @@ module.exports = {
         poppins: ["Poppins", "sans-serif"],
         dm: ["DM Sans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
+        playfair: ["Playfair Display", "serif"],
       },
       boxShadow: {
         "3xl": "14px 17px 40px 4px",
@@ -116,6 +117,30 @@ module.exports = {
       },
       borderRadius: {
         primary: "20px",
+      },
+      keyframes: {
+        "fade-up": {
+          "0%":   { opacity: "0", transform: "translateY(28px)" },
+          "100%": { opacity: "1", transform: "translateY(0)"    },
+        },
+        "fade-in": {
+          "0%":   { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "slide-down": {
+          "0%":   { opacity: "0", transform: "translateY(-12px)" },
+          "100%": { opacity: "1", transform: "translateY(0)"     },
+        },
+        "scale-in": {
+          "0%":   { opacity: "0", transform: "scale(0.96)" },
+          "100%": { opacity: "1", transform: "scale(1)"    },
+        },
+      },
+      animation: {
+        "fade-up":    "fade-up   0.65s cubic-bezier(0.4,0,0.2,1) forwards",
+        "fade-in":    "fade-in   0.5s  ease                       forwards",
+        "slide-down": "slide-down 0.4s cubic-bezier(0.4,0,0.2,1) forwards",
+        "scale-in":  "scale-in  0.5s  cubic-bezier(0.4,0,0.2,1) forwards",
       },
     },
     screens: {

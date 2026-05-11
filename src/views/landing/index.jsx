@@ -36,12 +36,12 @@ export default function LandingPage() {
         .h4{opacity:0;animation:fadeUp .75s ease .7s forwards}
         .h5{opacity:0;animation:fadeUp .75s ease .9s forwards}
 
-        .sr{opacity:0;transform:translateY(30px);transition:opacity .65s ease,transform .65s ease}
+        .sr{opacity:0;transform:translateY(28px);transition:opacity .6s cubic-bezier(0.4,0,0.2,1),transform .6s cubic-bezier(0.4,0,0.2,1)}
         .sr-show{opacity:1;transform:translateY(0)}
-        .sr.d1.sr-show{transition-delay:.05s}
-        .sr.d2.sr-show{transition-delay:.15s}
-        .sr.d3.sr-show{transition-delay:.25s}
-        .sr.d4.sr-show{transition-delay:.35s}
+        .sr.d1.sr-show{transition-delay:.08s}
+        .sr.d2.sr-show{transition-delay:.18s}
+        .sr.d3.sr-show{transition-delay:.28s}
+        .sr.d4.sr-show{transition-delay:.38s}
 
         .step-line{background:linear-gradient(90deg,#2F6BFF,#4D82FF)}
       `}</style>
