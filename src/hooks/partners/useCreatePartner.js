@@ -2,8 +2,8 @@ import { useState } from "react";
 
 const useCreatePartner = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [error] = useState(null);
+  const [fieldErrors] = useState({});
 
   const createPartner = async (data) => {
     setLoading(true);

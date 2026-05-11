@@ -2,8 +2,8 @@ import { useState } from "react";
 
 const useCreateUser = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [error] = useState(null);
+  const [fieldErrors] = useState({});
 
   const createUser = async (data) => {
     setLoading(true);

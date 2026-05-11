@@ -2,9 +2,9 @@ import { useState, useRef } from "react";
 
 const useUpdateUser = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [profileFieldErrors, setProfileFieldErrors] = useState({});
+  const [error] = useState(null);
+  const [fieldErrors] = useState({});
+  const [profileFieldErrors] = useState({});
   const lastError = useRef({ fieldErrors: {}, profileFieldErrors: {}, error: null });
 
   const updateUser = async (uid, data) => {

@@ -1,4 +1,4 @@
-﻿import { MdCloudUpload, MdDeleteOutline, MdInsertDriveFile, MdErrorOutline, MdPhotoCamera } from "react-icons/md";
+mport { MdCloudUpload, MdDeleteOutline, MdInsertDriveFile, MdErrorOutline, MdPhotoCamera } from "react-icons/md";
 import React, { useState, useEffect, useMemo } from "react";
 import { ALLOWED_FILE_TYPES } from "services/uploadService";
 

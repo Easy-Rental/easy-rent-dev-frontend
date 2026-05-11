@@ -1,4 +1,4 @@
-﻿import React from "react";
+mport React from "react";
 
 const DangerButton = ({ onClick, disabled, text = "Delete", icon, className = "" }) => {
   return (

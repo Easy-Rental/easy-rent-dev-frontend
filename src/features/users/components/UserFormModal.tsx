@@ -1,4 +1,4 @@
-﻿// @ts-nocheck
+/ @ts-nocheck
 import { useState, useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import type { User } from "types/auth";
