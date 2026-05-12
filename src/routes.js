@@ -22,6 +22,12 @@ import PartnerEditPage         from "views/admin/partners/PartnerEditPage";
 import PartnerProfilePage      from "views/admin/partners/PartnerProfilePage";
 import PartnerDriverCreatePage from "views/admin/partners/PartnerDriverCreatePage";
 
+// Admin — brands
+import BrandsPage        from "views/admin/brands/BrandsPage";
+import BrandCreatePage   from "views/admin/brands/BrandCreatePage";
+import BrandEditPage     from "views/admin/brands/BrandEditPage";
+import BrandProfilePage  from "views/admin/brands/BrandProfilePage";
+
 // Admin — stubs
 import Bookings       from "views/admin/bookings";
 import Notifications  from "views/admin/notifications";
@@ -75,6 +81,10 @@ const routes = [
   { name: "Create Driver",      layout: "/admin", path: "partners/driver/create",   component: <PartnerDriverCreatePage />},
   { name: "Partner Profile",    layout: "/admin", path: "partners/:uid",            component: <PartnerProfilePage />     },
   { name: "Edit Partner",       layout: "/admin", path: "partners/:uid/edit",       component: <PartnerEditPage />        },
+  { name: "Brands",             layout: "/admin", path: "brands",                   component: <BrandsPage />             },
+  { name: "Create Brand",       layout: "/admin", path: "brands/create",            component: <BrandCreatePage />        },
+  { name: "Brand Profile",      layout: "/admin", path: "brands/:uid",              component: <BrandProfilePage />       },
+  { name: "Edit Brand",         layout: "/admin", path: "brands/:uid/edit",         component: <BrandEditPage />          },
   {
     name: "Bookings",
     layout: "/admin",

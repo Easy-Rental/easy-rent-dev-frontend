@@ -16,6 +16,7 @@ import {
   MdPeople,
   MdBarChart,
   MdHandshake,
+  MdBrandingWatermark,
 } from "react-icons/md";
 import { signOut, tokenStorage, userStorage } from "lib/authClient";
 import { useAuth, ROLES } from "context/AuthContext";
@@ -69,6 +70,16 @@ const NAV = [
     children: [
       { name: "All Partners", path: "/admin/partners",        roles: [ROLES.ADMIN] },
       { name: "Add Partner",  path: "/admin/partners/create", roles: [ROLES.ADMIN] },
+    ],
+  },
+  {
+    name: "Brands",
+    path: "/admin/brands",
+    icon: <MdBrandingWatermark className="h-4 w-4" />,
+    roles: [ROLES.ADMIN],
+    children: [
+      { name: "All Brands", path: "/admin/brands",        roles: [ROLES.ADMIN] },
+      { name: "Add Brand",  path: "/admin/brands/create", roles: [ROLES.ADMIN] },
     ],
   },
   {
