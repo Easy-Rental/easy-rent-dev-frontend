@@ -1,229 +1,364 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  MdAdd,
-  MdSearch,
-  MdDirectionsCar,
-  MdLocationOn,
-  MdEdit,
-  MdDeleteOutline,
-  MdStar,
+  MdAdd, MdRefresh, MdEdit, MdDelete, MdWarning,
+  MdFilterList, MdClose, MdDirectionsCar, MdLocationOn,
+  MdStar, MdToggleOff,
 } from "react-icons/md";
-import { vehicles as initialVehicles, STATUS_STYLE } from "./data";
+import useVehicles from "hooks/vehicles/useVehicles";
+import useDeleteVehicle from "hooks/vehicles/useDeleteVehicle";
+import { STATUS_META, VEHICLE_CATEGORIES } from "hooks/vehicles/_dummy";
+import { useToast } from "context/ToastContext";
+import Loading from "../../../components/loading/Loading";
+import EmptyState from "components/empty/empty";
+import Button from "components/ui/buttons/Button";
+import IconButton from "components/ui/buttons/IconButton";
+import PageHeader from "components/ui/PageHeader";
+import FilterSelectField from "components/form/filter/FilterSelectField";
+import PrevButton from "components/ui/buttons/PrevButton";
+import NextButton from "components/ui/buttons/NextButton";
+import SearchInput from "components/form/SearchInput";
+import ConfirmModal from "components/ui/modals/ConfirmModal";
 
-const TABS = ["All", "Available", "Rented", "Maintenance"];
-
-const StatCard = ({ label, value, color }) => (
-  <div className="flex-1 rounded-2xl border border-slate-100 bg-white p-5">
-    <p className="text-xs font-medium text-slate-400">{label}</p>
-    <p className={`mt-1 text-2xl font-extrabold ${color}`}>{value}</p>
+const StatCard = ({ icon: Icon, label, value, accent = false }) => (
+  <div className="flex items-center gap-4 bg-white border border-slate-100 rounded-xl px-5 py-4 shadow-sm flex-1 min-w-0">
+    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${accent ? "bg-brand-50 border border-brand-200" : "bg-brand-50 border border-brand-100"}`}>
+      <Icon size={18} className="text-brand-500" />
+    </div>
+    <div className="min-w-0">
+      <p className={`text-2xl font-extrabold tabular-nums leading-none ${accent ? "text-brand-500" : "text-brand-600"}`}>{value}</p>
+      <p className="text-xs text-slate-400 mt-1 uppercase tracking-widest font-medium">{label}</p>
+    </div>
   </div>
 );
 
-export default function Fleet() {
+const VehiclesPage = () => {
   const navigate = useNavigate();
-  const [vehicles, setVehicles]   = useState(initialVehicles);
-  const [activeTab, setActiveTab] = useState("All");
-  const [search, setSearch]       = useState("");
-  const [deleteId, setDeleteId]   = useState(null);
+  const { addToast } = useToast();
+  const { vehicles, count, loading, error, params, setParams, refetch } = useVehicles();
+  const { deleteVehicle, loading: deleting } = useDeleteVehicle();
 
-  const stats = {
-    total:       vehicles.length,
-    available:   vehicles.filter((v) => v.status === "Available").length,
-    rented:      vehicles.filter((v) => v.status === "Rented").length,
-    maintenance: vehicles.filter((v) => v.status === "Maintenance").length,
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [filtersOpen, setFiltersOpen]   = useState(false);
+
+  const availableCount   = vehicles.filter((v) => v.status === "available").length;
+  const rentedCount      = vehicles.filter((v) => v.status === "rented").length;
+  const maintenanceCount = vehicles.filter((v) => v.status === "maintenance").length;
+
+  const activeFilterCount = [!!params.status, !!params.category].filter(Boolean).length;
+  const hasAnyFilter      = activeFilterCount > 0 || !!params.search;
+
+  const clearAllFilters = () => setParams({ status: undefined, category: undefined, search: undefined });
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    const ok = await deleteVehicle(deleteTarget.uid);
+    if (ok) {
+      addToast(`${deleteTarget.brand} ${deleteTarget.model} has been deleted`, "success");
+      setDeleteTarget(null);
+      refetch();
+    } else {
+      addToast("Failed to delete vehicle. Please try again.", "error");
+    }
   };
 
-  const filtered = vehicles.filter((v) => {
-    const matchTab    = activeTab === "All" || v.status === activeTab;
-    const matchSearch = [v.name, v.category, v.location, v.plateNo]
-      .join(" ")
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    return matchTab && matchSearch;
-  });
+  const totalPages = Math.ceil(count / 10);
 
-  const handleDelete = (id) => {
-    setVehicles((prev) => prev.filter((v) => v.id !== id));
-    setDeleteId(null);
-  };
+  const statusOptions = [
+    { value: "available",   label: "Available"   },
+    { value: "rented",      label: "Rented"      },
+    { value: "maintenance", label: "Maintenance" },
+    { value: "inactive",    label: "Inactive"    },
+  ];
+
+  const categoryOptions = VEHICLE_CATEGORIES.map((c) => ({ value: c, label: c }));
 
   return (
-    <div>
-      {/* ── Header ── */}
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-xl font-extrabold text-slate-900">Fleet Management</h2>
-          <p className="text-sm text-slate-400">{filtered.length} vehicles shown</p>
-        </div>
-        <Link
-          to="/admin/fleet/add"
-          className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-600 transition-colors shadow-sm"
-        >
-          <MdAdd className="h-4 w-4" />
-          Add Vehicle
-        </Link>
-      </div>
-
-      {/* ── Stats ── */}
-      <div className="mb-6 flex gap-3 flex-wrap sm:flex-nowrap">
-        <StatCard label="Total Vehicles" value={stats.total}       color="text-slate-900" />
-        <StatCard label="Available"      value={stats.available}   color="text-green-600" />
-        <StatCard label="Rented"         value={stats.rented}      color="text-orange-500" />
-        <StatCard label="Maintenance"    value={stats.maintenance}  color="text-red-500" />
-      </div>
-
-      {/* ── Toolbar ── */}
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        {/* Search */}
-        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 w-full sm:max-w-xs shadow-sm">
-          <MdSearch className="h-4 w-4 text-slate-400 shrink-0" />
-          <input
-            type="text"
-            placeholder="Search name, plate, location..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
+    <>
+      <PageHeader
+        title="Fleet Management"
+        subtitle="Manage all vehicles available on the platform"
+        actions={
+          <Button
+            variant="primary"
+            text="Add Vehicle"
+            icon={<MdAdd size={15} />}
+            onClick={() => navigate("/admin/fleet/add")}
           />
+        }
+        className="mb-4 px-0 sm:px-0"
+      />
+
+      {/* Stats */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <StatCard icon={MdDirectionsCar} label="Total Vehicles" value={count}           accent />
+        <StatCard icon={MdDirectionsCar} label="Available"      value={availableCount}  />
+        <StatCard icon={MdDirectionsCar} label="Rented"         value={rentedCount}     />
+        <StatCard icon={MdDirectionsCar} label="Maintenance"    value={maintenanceCount} />
+      </div>
+
+      {/* Filter bar */}
+      <div className="bg-white border border-slate-100 rounded-xl px-4 py-3 mb-4">
+        <div className="flex items-center gap-2">
+
+          <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
+            <MdFilterList size={15} className="text-slate-400" />
+            <span className="text-sm font-semibold text-slate-600">Filters</span>
+            {activeFilterCount > 0 && (
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-500 text-white text-[10px] font-bold">
+                {activeFilterCount}
+              </span>
+            )}
+          </div>
+
+          <div className="hidden sm:block w-px h-5 bg-slate-200" />
+
+          <SearchInput
+            value={params.search ?? ""}
+            onChange={(val) => setParams({ search: val })}
+            placeholder="Search brand, plate, location..."
+            className="flex-1 max-w-xs"
+          />
+
+          <div className="hidden sm:block">
+            <FilterSelectField
+              value={params.status ?? "all"}
+              onChange={(val) => setParams({ status: val === "all" ? undefined : val })}
+              icon={MdToggleOff}
+              defaultOption="All Status"
+              options={statusOptions}
+            />
+          </div>
+
+          <div className="hidden sm:block">
+            <FilterSelectField
+              value={params.category ?? "all"}
+              onChange={(val) => setParams({ category: val === "all" ? undefined : val })}
+              icon={MdDirectionsCar}
+              defaultOption="All Categories"
+              options={categoryOptions}
+            />
+          </div>
+
+          <div className="hidden sm:block w-px h-5 bg-slate-200" />
+
+          <IconButton
+            onClick={refetch}
+            icon={<MdRefresh size={15} />}
+            bgColor="bg-white"
+            textColor="text-slate-500"
+            borderColor="border-slate-200"
+            hoverTextColor="hover:text-slate-700"
+            hoverBorderColor="hover:border-slate-300"
+            className="hidden sm:flex p-2 flex-shrink-0"
+          />
+
+          {hasAnyFilter && (
+            <button
+              type="button"
+              onClick={clearAllFilters}
+              className="hidden sm:flex items-center gap-1 text-xs text-slate-400 hover:text-red-500 transition whitespace-nowrap flex-shrink-0"
+            >
+              <MdClose size={12} />
+              Clear all
+            </button>
+          )}
+
+          <div className="flex-1 hidden sm:block" />
+          {!loading && (
+            <span className="hidden sm:block text-xs text-slate-400 whitespace-nowrap flex-shrink-0">
+              Showing <span className="font-semibold text-slate-600">{vehicles.length}</span> of <span className="font-semibold text-slate-600">{count}</span>
+            </span>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((o) => !o)}
+            className="relative sm:hidden flex-shrink-0 p-2 rounded-md border border-slate-200 text-slate-500 hover:text-slate-700 hover:border-slate-300 transition"
+          >
+            <MdFilterList size={16} />
+            {activeFilterCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-brand-500 text-white text-[9px] font-bold flex items-center justify-center">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
         </div>
 
-        {/* Status tabs */}
-        <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
-          {TABS.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
-                activeTab === tab
-                  ? "bg-brand-500 text-white shadow-sm"
-                  : "text-slate-500 hover:bg-slate-50"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+        {filtersOpen && (
+          <div className="sm:hidden mt-2 pt-2 border-t border-slate-100 flex flex-col gap-2">
+            <FilterSelectField
+              value={params.status ?? "all"}
+              onChange={(val) => setParams({ status: val === "all" ? undefined : val })}
+              icon={MdToggleOff}
+              defaultOption="All Status"
+              options={statusOptions}
+            />
+            <FilterSelectField
+              value={params.category ?? "all"}
+              onChange={(val) => setParams({ category: val === "all" ? undefined : val })}
+              icon={MdDirectionsCar}
+              defaultOption="All Categories"
+              options={categoryOptions}
+            />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <IconButton
+                  onClick={refetch}
+                  icon={<MdRefresh size={14} />}
+                  bgColor="bg-white"
+                  textColor="text-slate-500"
+                  borderColor="border-slate-200"
+                  hoverTextColor="hover:text-slate-700"
+                  hoverBorderColor="hover:border-slate-300"
+                  className="p-2"
+                />
+                {hasAnyFilter && (
+                  <button type="button" onClick={clearAllFilters} className="flex items-center gap-1 text-xs text-slate-400 hover:text-red-500 transition">
+                    <MdClose size={12} /> Clear all
+                  </button>
+                )}
+              </div>
+              {!loading && (
+                <span className="text-xs text-slate-400">
+                  Showing <span className="font-semibold text-slate-600">{vehicles.length}</span> of <span className="font-semibold text-slate-600">{count}</span>
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Table */}
+      <div className="bg-white rounded-2xl border border-slate-100">
+        <div className="p-4 sm:p-6">
+          <div className="rounded-xl border border-slate-100 overflow-hidden">
+            {loading ? (
+              <Loading text="Fetching vehicles..." />
+            ) : error ? (
+              <div className="flex items-center justify-center py-16 text-sm text-red-500">{error}</div>
+            ) : vehicles.length === 0 ? (
+              <EmptyState
+                icon={<MdDirectionsCar size={28} />}
+                title="No vehicles found"
+                description="Try adjusting your search or filters."
+              />
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-100 bg-slate-50/60">
+                      {["Vehicle", "Plate No.", "Location", "Status", "Price/Day", "Rating", "Actions"].map((label) => (
+                        <th key={label} className="px-5 py-3 text-left text-xs font-bold tracking-widest uppercase text-slate-400">
+                          {label}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50">
+                    {vehicles.map((v) => {
+                      const meta = STATUS_META[v.status] ?? STATUS_META.inactive;
+                      return (
+                        <tr
+                          key={v.uid}
+                          onClick={() => navigate(`/admin/fleet/${v.uid}`)}
+                          className="hover:bg-slate-50 transition cursor-pointer group"
+                        >
+                          <td className="px-5 py-3.5">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0">
+                                <MdDirectionsCar size={18} className="text-brand-500" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="font-semibold text-slate-900 truncate">{v.brand} {v.model}</p>
+                                <p className="text-xs text-slate-400">{v.year} · {v.category} · {v.seats} seats</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">{v.plate_number}</span>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className="flex items-center gap-1 text-slate-500">
+                              <MdLocationOn size={14} className="text-slate-400 shrink-0" />
+                              <span className="truncate max-w-[120px]">{v.location}</span>
+                            </span>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold border ${meta.bg} ${meta.text} ${meta.border}`}>
+                              <span className={`w-1.5 h-1.5 rounded-full ${meta.dot}`} />
+                              {meta.label}
+                            </span>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className="font-semibold text-slate-900">RM {v.daily_rate}</span>
+                            <span className="text-xs text-slate-400">/day</span>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className="flex items-center gap-1">
+                              <MdStar size={14} className="text-yellow-400" />
+                              <span className="font-semibold text-slate-700">{v.rating}</span>
+                              <span className="text-xs text-slate-400">({v.reviews})</span>
+                            </span>
+                          </td>
+                          <td className="px-5 py-3.5" onClick={(e) => e.stopPropagation()}>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => navigate(`/admin/fleet/${v.uid}/edit`)}
+                                className="p-1.5 rounded-md text-slate-400 hover:bg-brand-50 hover:text-brand-600 transition"
+                                title="Edit"
+                              >
+                                <MdEdit size={14} />
+                              </button>
+                              <button
+                                onClick={() => setDeleteTarget(v)}
+                                className="p-1.5 rounded-md text-slate-400 hover:bg-red-50 hover:text-red-500 transition"
+                                title="Delete"
+                              >
+                                <MdDelete size={14} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-t border-slate-100">
+                <p className="text-xs text-slate-400">Page {params.page ?? 1} of {totalPages}</p>
+                <div className="flex gap-2">
+                  <PrevButton text="Previous" disabled={!params.page || params.page <= 1} onClick={() => setParams({ page: (params.page ?? 1) - 1 })} />
+                  <NextButton text="Next" disabled={(params.page ?? 1) >= totalPages} onClick={() => setParams({ page: (params.page ?? 1) + 1 })} />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* ── Table ── */}
-      {filtered.length > 0 ? (
-        <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[700px] text-sm">
-              <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/60">
-                  <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wide">Vehicle</th>
-                  <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wide">Plate No.</th>
-                  <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wide">Location</th>
-                  <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wide">Status</th>
-                  <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wide">Price/Day</th>
-                  <th className="px-5 py-3.5 text-left text-xs font-semibold text-slate-400 uppercase tracking-wide">Rating</th>
-                  <th className="px-5 py-3.5 text-right text-xs font-semibold text-slate-400 uppercase tracking-wide">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50">
-                {filtered.map((v) => {
-                  const style = STATUS_STYLE[v.status];
-                  return (
-                    <tr key={v.id} className="group hover:bg-slate-50/50 transition-colors">
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50">
-                            <MdDirectionsCar className="h-5 w-5 text-brand-500" />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="truncate font-semibold text-slate-900">{v.name}</p>
-                            <p className="text-xs text-slate-400">{v.category} · {v.seats} seats · {v.fuel}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-5 py-4">
-                        <span className="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">{v.plateNo}</span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <span className="flex items-center gap-1 text-slate-500">
-                          <MdLocationOn className="h-3.5 w-3.5 shrink-0 text-slate-400" />
-                          <span className="truncate max-w-[120px]">{v.location}</span>
-                        </span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${style.badge}`}>
-                          <span className={`h-1.5 w-1.5 rounded-full ${style.dot}`} />
-                          {v.status}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <span className="font-semibold text-slate-900">RM {v.price}</span>
-                        <span className="text-xs text-slate-400">/day</span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <span className="flex items-center gap-1">
-                          <MdStar className="h-3.5 w-3.5 text-yellow-400" />
-                          <span className="font-semibold text-slate-700">{v.rating}</span>
-                          <span className="text-xs text-slate-400">({v.reviews})</span>
-                        </span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button
-                            onClick={() => navigate(`/admin/fleet/${v.id}/edit`)}
-                            className="rounded-lg border border-slate-200 p-1.5 text-slate-400 hover:border-brand-300 hover:text-brand-500 transition-colors"
-                            title="Edit"
-                          >
-                            <MdEdit className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={() => setDeleteId(v.id)}
-                            className="rounded-lg border border-slate-200 p-1.5 text-slate-400 hover:border-red-300 hover:text-red-500 transition-colors"
-                            title="Delete"
-                          >
-                            <MdDeleteOutline className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-white py-16">
-          <MdDirectionsCar className="h-12 w-12 text-slate-200" />
-          <p className="mt-3 font-semibold text-slate-400">No vehicles found</p>
-          <p className="mt-1 text-sm text-slate-300">Try adjusting your search or filter</p>
-        </div>
-      )}
-
-      {/* ── Delete confirm modal ── */}
-      {deleteId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-          <div className="mx-4 w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-50">
-              <MdDeleteOutline className="h-6 w-6 text-red-500" />
-            </div>
-            <h3 className="text-base font-bold text-slate-900">Delete vehicle?</h3>
-            <p className="mt-1 text-sm text-slate-500">
-              This action cannot be undone. The vehicle will be permanently removed from your fleet.
-            </p>
-            <div className="mt-5 flex gap-3">
-              <button
-                onClick={() => setDeleteId(null)}
-                className="flex-1 rounded-xl border border-slate-200 py-2.5 text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => handleDelete(deleteId)}
-                className="flex-1 rounded-xl bg-red-500 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition-colors"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      <ConfirmModal
+        open={!!deleteTarget}
+        title="Delete Vehicle"
+        message={
+          <>
+            Are you sure you want to delete{" "}
+            <span className="font-semibold text-slate-900">{deleteTarget?.brand} {deleteTarget?.model}</span>?
+            {" "}This action cannot be undone.
+          </>
+        }
+        confirmText="Delete"
+        cancelText="Cancel"
+        loading={deleting}
+        icon={<MdWarning size={20} className="text-red-500" />}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleDelete}
+      />
+    </>
   );
-}
+};
+
+export default VehiclesPage;

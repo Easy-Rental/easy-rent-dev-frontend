@@ -36,9 +36,8 @@ const NAV = [
     icon: <MdOutlineDirectionsCar className="h-4 w-4" />,
     roles: [ROLES.ADMIN, ROLES.ACCOUNT_MANAGER],
     children: [
-      { name: "All Vehicles", path: "/admin/fleet",           roles: [ROLES.ADMIN, ROLES.ACCOUNT_MANAGER] },
-      { name: "Add Vehicle",  path: "/admin/fleet/add",        roles: [ROLES.ADMIN] },
-      { name: "Categories",   path: "/admin/fleet/categories", roles: [ROLES.ADMIN] },
+      { name: "All Vehicles", path: "/admin/fleet",     roles: [ROLES.ADMIN, ROLES.ACCOUNT_MANAGER] },
+      { name: "Add Vehicle",  path: "/admin/fleet/add", roles: [ROLES.ADMIN] },
     ],
   },
   {

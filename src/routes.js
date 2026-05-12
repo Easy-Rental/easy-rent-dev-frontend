@@ -5,8 +5,10 @@ import MainDashboard  from "views/admin/default";
 import Profile        from "views/admin/profile";
 
 // Admin — fleet
-import Fleet          from "views/admin/fleet";
-import AddVehicle     from "views/admin/fleet/AddVehicle";
+import Fleet            from "views/admin/fleet";
+import AddVehicle       from "views/admin/fleet/AddVehicle";
+import VehicleProfilePage from "views/admin/fleet/VehicleProfilePage";
+import VehicleEditPage    from "views/admin/fleet/VehicleEditPage";
 
 // Admin — users
 import UsersPage         from "views/admin/users/UsersPage";
@@ -71,6 +73,8 @@ const routes = [
     icon: <MdOutlineDirectionsCar className="h-6 w-6" />,
     component: <AddVehicle />,
   },
+  { name: "Vehicle Profile", layout: "/admin", path: "fleet/:uid",      component: <VehicleProfilePage /> },
+  { name: "Edit Vehicle",    layout: "/admin", path: "fleet/:uid/edit", component: <VehicleEditPage />    },
   { name: "Users",           layout: "/admin", path: "users",                    component: <UsersPage />              },
   { name: "Create User",     layout: "/admin", path: "users/create",             component: <UserCreatePage />         },
   { name: "Create Trainer",  layout: "/admin", path: "users/trainer/create",     component: <TrainerCreatePage />      },

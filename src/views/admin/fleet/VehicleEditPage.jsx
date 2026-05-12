@@ -1,7 +1,8 @@
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { MdPhotoCamera, MdDirectionsCar } from "react-icons/md";
-import useCreateVehicle from "hooks/vehicles/useCreateVehicle";
+import useGetVehicle from "hooks/vehicles/useGetVehicle";
+import useUpdateVehicle from "hooks/vehicles/useUpdateVehicle";
 import usePresignedUpload from "hooks/storage/usePresignedUpload";
 import { useToast } from "context/ToastContext";
 import InputField from "components/form/InputField";
@@ -11,6 +12,7 @@ import SearchableSelect from "components/form/SearchableSelect";
 import SearchableMultiSelectField from "components/form/search/SearchableMultiSelectField";
 import CompactToggle from "components/form/toggle/CompactToggle";
 import Button from "components/ui/buttons/Button";
+import Loading from "../../../components/loading/Loading";
 import {
   VEHICLE_FEATURES, VEHICLE_CATEGORIES, VEHICLE_FUEL_TYPES,
   VEHICLE_TRANSMISSIONS, VEHICLE_STATUSES,
@@ -90,10 +92,13 @@ const VehicleImageUpload = ({ displayUrl, onChange, onUploadError }) => {
   );
 };
 
-const VehicleCreatePage = () => {
+const VehicleEditPage = () => {
+  const { uid } = useParams(); const id = uid;
   const navigate = useNavigate();
   const { addToast } = useToast();
-  const { createVehicle, loading, error, fieldErrors } = useCreateVehicle();
+
+  const { vehicle, loading: loadingVehicle, error: loadError } = useGetVehicle(id);
+  const { updateVehicle, loading: updating, error: updateError, fieldErrors, getLastError } = useUpdateVehicle();
 
   const [imageUrl, setImageUrl] = useState("");
   const [imageKey, setImageKey] = useState("");
@@ -122,11 +127,35 @@ const VehicleCreatePage = () => {
 
   const set = (key, value) => setForm((p) => ({ ...p, [key]: value }));
 
+  useEffect(() => {
+    if (!vehicle) return;
+    setForm({
+      brand:            vehicle.brand            ?? "",
+      model:            vehicle.model            ?? "",
+      year:             vehicle.year             ?? "",
+      color:            vehicle.color            ?? "",
+      plate_number:     vehicle.plate_number     ?? "",
+      transmission:     vehicle.transmission     ?? "",
+      fuel_type:        vehicle.fuel_type        ?? "",
+      seats:            vehicle.seats            ?? "",
+      category:         vehicle.category         ?? "",
+      daily_rate:       vehicle.daily_rate       ?? "",
+      location:         vehicle.location         ?? "",
+      partner_uid:      vehicle.partner_uid      ?? "",
+      status:           vehicle.status           ?? "available",
+      mileage:          vehicle.mileage          ?? "",
+      insurance_expiry: vehicle.insurance_expiry ?? "",
+      road_tax_expiry:  vehicle.road_tax_expiry  ?? "",
+      features:         vehicle.features         ?? [],
+      description:      vehicle.description      ?? "",
+      is_active:        vehicle.is_active        ?? true,
+    });
+    setImageUrl(vehicle.images?.[0]?.public_url ?? "");
+  }, [vehicle]);
+
   const brandOptions   = DUMMY_BRANDS.map((b) => ({ value: b.name, label: b.name }));
   const partnerOptions = DUMMY_PARTNERS.map((p) => ({ value: p.uid, label: p.name }));
   const featureOptions = VEHICLE_FEATURES.map((f) => ({ value: f, label: f }));
-
-  const isFormValid = form.brand && form.model && form.plate_number && form.category && form.daily_rate;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -138,23 +167,31 @@ const VehicleCreatePage = () => {
       mileage:    form.mileage    ? Number(form.mileage)    : undefined,
       ...(imageKey ? { thumbnail_key: imageKey } : {}),
     };
-    const { vehicle: created, fieldErrors: fe, error: ge } = await createVehicle(payload);
-    if (created) {
-      addToast("Vehicle added successfully", "success");
-      navigate("/admin/fleet");
+    const result = await updateVehicle(id, payload);
+    if (result) {
+      addToast("Vehicle updated successfully", "success");
+      navigate(`/admin/fleet/${id}`);
     } else {
-      const firstError = Object.values(fe)[0];
-      addToast(firstError ?? ge ?? "Failed to add vehicle. Please try again.", "error");
+      const { fieldErrors: fe, error: ge } = getLastError();
+      const firstError = Object.values(fe)[0] ?? ge ?? "Failed to save changes. Please try again.";
+      addToast(firstError, "error");
     }
   };
+
+  if (loadingVehicle) return <Loading text="Loading vehicle..." />;
+  if (loadError) return (
+    <div className="flex items-center justify-center py-20 text-sm text-red-500">{loadError}</div>
+  );
 
   return (
     <div className="max-w-5xl mx-auto">
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
 
         <div className="px-4 sm:px-6 py-4 border-b border-slate-100">
-          <h1 className="text-base font-bold text-slate-900">Add New Vehicle</h1>
-          <p className="text-xs text-slate-400 mt-0.5">Register a vehicle to the fleet</p>
+          <h1 className="text-base font-bold text-slate-900">Edit Vehicle</h1>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Updating <span className="font-semibold text-brand-600">{vehicle?.brand} {vehicle?.model}</span>
+          </p>
         </div>
 
         <VehicleImageUpload
@@ -164,8 +201,8 @@ const VehicleCreatePage = () => {
         />
 
         <form onSubmit={handleSubmit} className="px-4 sm:px-6 py-6 space-y-6">
-          {error && (
-            <div className="rounded-md border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>
+          {updateError && (
+            <div className="rounded-md border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-600">{updateError}</div>
           )}
 
           {/* Vehicle Info */}
@@ -377,8 +414,8 @@ const VehicleCreatePage = () => {
 
           {/* Actions */}
           <div className="flex gap-2 border-t border-slate-100 pt-5">
-            <Button text="Cancel" variant="ghost" onClick={() => navigate("/admin/fleet")} className="flex-1 py-2.5" />
-            <Button type="submit" variant="primary" text={loading ? "Adding..." : "Add Vehicle"} disabled={loading || !isFormValid} className="flex-1 py-2.5" />
+            <Button text="Cancel" variant="ghost" onClick={() => navigate(`/admin/fleet/${id}`)} className="flex-1 py-2.5" />
+            <Button type="submit" variant="primary" text={updating ? "Saving..." : "Save Changes"} disabled={updating || !form.brand || !form.model} className="flex-1 py-2.5" />
           </div>
         </form>
       </div>
@@ -386,4 +423,4 @@ const VehicleCreatePage = () => {
   );
 };
 
-export default VehicleCreatePage;
+export default VehicleEditPage;
