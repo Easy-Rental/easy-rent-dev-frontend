@@ -30,6 +30,12 @@ import BrandCreatePage   from "views/admin/brands/BrandCreatePage";
 import BrandEditPage     from "views/admin/brands/BrandEditPage";
 import BrandProfilePage  from "views/admin/brands/BrandProfilePage";
 
+// Admin — models
+import ModelsPage        from "views/admin/models/ModelsPage";
+import ModelCreatePage   from "views/admin/models/ModelCreatePage";
+import ModelEditPage     from "views/admin/models/ModelEditPage";
+import ModelProfilePage  from "views/admin/models/ModelProfilePage";
+
 // Admin — stubs
 import Bookings       from "views/admin/bookings";
 import Notifications  from "views/admin/notifications";
@@ -89,6 +95,10 @@ const routes = [
   { name: "Create Brand",       layout: "/admin", path: "brands/create",            component: <BrandCreatePage />        },
   { name: "Brand Profile",      layout: "/admin", path: "brands/:uid",              component: <BrandProfilePage />       },
   { name: "Edit Brand",         layout: "/admin", path: "brands/:uid/edit",         component: <BrandEditPage />          },
+  { name: "Models",             layout: "/admin", path: "models",                   component: <ModelsPage />             },
+  { name: "Create Model",       layout: "/admin", path: "models/create",            component: <ModelCreatePage />        },
+  { name: "Model Profile",      layout: "/admin", path: "models/:uid",              component: <ModelProfilePage />       },
+  { name: "Edit Model",         layout: "/admin", path: "models/:uid/edit",         component: <ModelEditPage />          },
   {
     name: "Bookings",
     layout: "/admin",
