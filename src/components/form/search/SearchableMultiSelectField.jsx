@@ -3,7 +3,7 @@ import { MdExpandMore } from "react-icons/md";
 
 const getNestedValue = (obj, path) => {
   if (!path) return undefined;
-  return path.split(/[\.\[\]]/).filter(Boolean)
+  return path.split(/[.[\]]/).filter(Boolean)
     .reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 };
 
