@@ -1,21 +1,21 @@
 import { MdWarning } from "react-icons/md";
 import ConfirmModal from "components/ui/modals/ConfirmModal";
 
-const ModelDeleteModal = ({ open, model, onClose, onConfirm, loading }) => {
-  if (!model) return null;
+const ManagerDeleteModal = ({ open, manager, onClose, onConfirm, loading }) => {
+  if (!manager) return null;
 
   return (
     <ConfirmModal
       open={open}
-      title="Delete Model"
+      title="Remove Manager"
       message={
         <>
-          Are you sure you want to delete{" "}
-          <span className="font-semibold text-slate-900">{model.brand_name} {model.name}</span>?
+          Are you sure you want to remove{" "}
+          <span className="font-semibold text-slate-900">{manager.name}</span>?
           {" "}This action cannot be undone.
         </>
       }
-      confirmText="Delete"
+      confirmText="Remove"
       cancelText="Cancel"
       loading={loading}
       icon={<MdWarning size={20} className="text-red-500" />}
@@ -25,4 +25,4 @@ const ModelDeleteModal = ({ open, model, onClose, onConfirm, loading }) => {
   );
 };
 
-export default ModelDeleteModal;
+export default ManagerDeleteModal;

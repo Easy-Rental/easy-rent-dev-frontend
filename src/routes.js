@@ -36,6 +36,12 @@ import ModelCreatePage   from "views/admin/models/ModelCreatePage";
 import ModelEditPage     from "views/admin/models/ModelEditPage";
 import ModelProfilePage  from "views/admin/models/ModelProfilePage";
 
+// Admin — managers
+import ManagersPage       from "views/admin/managers/ManagersPage";
+import ManagerCreatePage  from "views/admin/managers/ManagerCreatePage";
+import ManagerEditPage    from "views/admin/managers/ManagerEditPage";
+import ManagerProfilePage from "views/admin/managers/ManagerProfilePage";
+
 // Admin — stubs
 import Bookings       from "views/admin/bookings";
 import Notifications  from "views/admin/notifications";
@@ -99,6 +105,10 @@ const routes = [
   { name: "Create Model",       layout: "/admin", path: "models/create",            component: <ModelCreatePage />        },
   { name: "Model Profile",      layout: "/admin", path: "models/:uid",              component: <ModelProfilePage />       },
   { name: "Edit Model",         layout: "/admin", path: "models/:uid/edit",         component: <ModelEditPage />          },
+  { name: "Managers",           layout: "/admin", path: "managers",                 component: <ManagersPage />           },
+  { name: "Create Manager",     layout: "/admin", path: "managers/create",          component: <ManagerCreatePage />      },
+  { name: "Manager Profile",    layout: "/admin", path: "managers/:uid",            component: <ManagerProfilePage />     },
+  { name: "Edit Manager",       layout: "/admin", path: "managers/:uid/edit",       component: <ManagerEditPage />        },
   {
     name: "Bookings",
     layout: "/admin",

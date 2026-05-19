@@ -18,6 +18,7 @@ import {
   MdHandshake,
   MdBrandingWatermark,
   MdViewList,
+  MdSupervisedUserCircle,
 } from "react-icons/md";
 import { signOut, tokenStorage, userStorage } from "lib/authClient";
 import { useAuth, ROLES } from "context/AuthContext";
@@ -60,6 +61,16 @@ const NAV = [
     children: [
       { name: "All Users", path: "/admin/users",        roles: [ROLES.ADMIN] },
       { name: "Add User",  path: "/admin/users/create", roles: [ROLES.ADMIN] },
+    ],
+  },
+  {
+    name: "Managers",
+    path: "/admin/managers",
+    icon: <MdSupervisedUserCircle className="h-4 w-4" />,
+    roles: [ROLES.ADMIN],
+    children: [
+      { name: "All Managers", path: "/admin/managers",        roles: [ROLES.ADMIN] },
+      { name: "Add Manager",  path: "/admin/managers/create", roles: [ROLES.ADMIN] },
     ],
   },
   {
