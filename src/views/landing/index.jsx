@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
-import HeroSection     from "./components/HeroSection";
-import BrandsSection   from "./components/BrandsSection";
-import ServicesSection from "./components/ServicesSection";
-import HowItWorks      from "./components/HowItWorks";
-import WhyChooseUs     from "./components/WhyChooseUs";
-import Testimonials    from "./components/Testimonials";
-import Footer          from "./components/Footer";
+import HeroSection             from "./components/HeroSection";
+import StatsSection            from "./components/StatsSection";
+import FeaturedVehiclesSection from "./components/FeaturedVehiclesSection";
+import CategoriesSection       from "./components/CategoriesSection";
+import BrandsSection           from "./components/BrandsSection";
+import ModelsSection           from "./components/ModelsSection";
+import HowItWorks              from "./components/HowItWorks";
+import ServicesSection         from "./components/ServicesSection";
+import WhyChooseUs             from "./components/WhyChooseUs";
+import Testimonials            from "./components/Testimonials";
+import CTASection              from "./components/CTASection";
+import Footer                  from "./components/Footer";
 
 function useScrollReveal() {
   useEffect(() => {
@@ -48,11 +53,16 @@ export default function LandingPage() {
 
       <div className="min-h-screen bg-white font-montserrat text-slate-900 overflow-x-hidden">
         <HeroSection />
+        <StatsSection />
+        <FeaturedVehiclesSection />
+        <CategoriesSection />
         <BrandsSection />
-        <ServicesSection />
+        <ModelsSection />
         <HowItWorks />
+        <ServicesSection />
         <WhyChooseUs />
         <Testimonials />
+        <CTASection />
         <Footer />
       </div>
     </>
