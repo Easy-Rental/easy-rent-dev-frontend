@@ -8,17 +8,19 @@ import {
 } from "react-icons/md";
 
 const FLEET_ITEMS = [
-  { label: "Sedan",  sub: "Proton Saga · S70 · Persona",  href: "#fleet" },
-  { label: "SUV",    sub: "Proton X50 · X70 · X90",       href: "#fleet" },
-  { label: "MPV",    sub: "Proton Exora",                  href: "#fleet" },
-  { label: "Hatch",  sub: "Proton Iriz",                   href: "#fleet" },
+  { label: "Sedan",     sub: "Toyota Camry · Honda City · Proton Saga",   href: "#fleet" },
+  { label: "SUV",       sub: "Honda CR-V · Proton X70 · Toyota Fortuner", href: "#fleet" },
+  { label: "MPV",       sub: "Honda Odyssey · Proton Exora",              href: "#fleet" },
+  { label: "Hatchback", sub: "Perodua Myvi · Proton Iriz",                href: "#fleet" },
+  { label: "Luxury",    sub: "BMW 3 Series · BMW 5 Series",               href: "#fleet" },
 ];
 
 const NAV_LINKS = [
-  { label: "Home",      href: "#"        },
-  { label: "Our Fleet", href: "#fleet",  hasDropdown: true },
-  { label: "Services",  href: "#services" },
-  { label: "About Us",  href: "#about"   },
+  { label: "Home",         href: "#"              },
+  { label: "Our Fleet",    href: "#fleet",         hasDropdown: true },
+  { label: "How It Works", href: "#how-it-works"  },
+  { label: "Services",     href: "#services"      },
+  { label: "About Us",     href: "#about"         },
 ];
 
 export default function Navbar() {

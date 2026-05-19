@@ -6,7 +6,7 @@ const FEATURED = DUMMY_VEHICLES.filter((v) => v.status === "available").slice(0,
 
 export default function FeaturedVehiclesSection() {
   return (
-    <section className="bg-white py-20 px-6">
+    <section id="fleet" className="bg-white py-20 px-6">
       <div className="mx-auto max-w-7xl">
         <div className="sr text-center mb-12">
           <span className="inline-block rounded-full bg-brand-50 px-4 py-1.5 text-xs font-bold text-brand-500 uppercase tracking-widest mb-3">
